@@ -18,7 +18,6 @@ prepare:
 
 build:
 	CHAINS_ENDPOINT=$(CHAINS_ENDPOINT) VALIDATORS_ENDPOINT=$(VALIDATORS_ENDPOINT) ./build.js
-	date > dist/.timestamp
 
 clean:
 	rm -rf dist/**/*
