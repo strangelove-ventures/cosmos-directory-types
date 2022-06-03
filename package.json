@@ -1,0 +1,11 @@
+{
+  "name": "cosmos-directory-types",
+  "version": "0.0.0",
+  "dependencies": {
+    "quicktype": "latest"
+  },
+  "resolutions": {
+    "node-fetch": "npm:node-fetch-native@latest"
+  },
+  "private": true
+}
