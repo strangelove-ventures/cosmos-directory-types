@@ -31,7 +31,13 @@ const generate = async ({ lang = "", ext = "" }) => {
   const inputData = new InputData();
   inputData.addInput(jsonInput);
 
-  const { lines } = await quicktype({ checkProvenance: true, combineClasses: true, inputData, lang });
+  const { lines } = await quicktype({
+    alphabetizeProperties: true,
+    checkProvenance: true,
+    combineClasses: true,
+    inputData,
+    lang,
+  });
 
   const destination = cwd(`dist/generated.${ext.replace(/^\./, "")}`);
   const contents = lines.concat("").join("\n");

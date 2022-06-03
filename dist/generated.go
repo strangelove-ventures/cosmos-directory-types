@@ -73,26 +73,26 @@ func (r *ChainValidatorsData) Marshal() ([]byte, error) {
 }
 
 type AllChainsData struct {
-	Repository Repository           `json:"repository"`
 	Chains     []AllChainsDataChain `json:"chains"`    
+	Repository Repository           `json:"repository"`
 }
 
 type AllChainsDataChain struct {
-	Name        string       `json:"name"`                  
-	Path        string       `json:"path"`                  
-	ChainName   string       `json:"chain_name"`            
-	NetworkType NetworkType  `json:"network_type"`          
-	PrettyName  string       `json:"pretty_name"`           
+	BestApis    BestApis     `json:"best_apis"`             
 	ChainID     string       `json:"chain_id"`              
+	ChainName   string       `json:"chain_name"`            
+	CoingeckoID *string      `json:"coingecko_id,omitempty"`
+	Decimals    *int64       `json:"decimals,omitempty"`    
+	Denom       *string      `json:"denom,omitempty"`       
+	Height      *int64       `json:"height"`                
+	Image       *string      `json:"image,omitempty"`       
+	Name        string       `json:"name"`                  
+	NetworkType NetworkType  `json:"network_type"`          
+	Params      PurpleParams `json:"params"`                
+	Path        string       `json:"path"`                  
+	PrettyName  string       `json:"pretty_name"`           
 	Status      PurpleStatus `json:"status"`                
 	Symbol      *string      `json:"symbol,omitempty"`      
-	Denom       *string      `json:"denom,omitempty"`       
-	Decimals    *int64       `json:"decimals,omitempty"`    
-	Image       *string      `json:"image,omitempty"`       
-	Height      *int64       `json:"height"`                
-	BestApis    BestApis     `json:"best_apis"`             
-	Params      PurpleParams `json:"params"`                
-	CoingeckoID *string      `json:"coingecko_id,omitempty"`
 }
 
 type BestApis struct {
@@ -106,80 +106,80 @@ type Grpc struct {
 }
 
 type PurpleParams struct {
+	ActualBlockTime *float64 `json:"actual_block_time,omitempty"`
 	Authz           *bool    `json:"authz,omitempty"`            
 	BondedTokens    *string  `json:"bonded_tokens,omitempty"`    
-	TotalSupply     *string  `json:"total_supply,omitempty"`     
-	ActualBlockTime *float64 `json:"actual_block_time,omitempty"`
 	CalculatedAPR   *float64 `json:"calculated_apr,omitempty"`   
+	TotalSupply     *string  `json:"total_supply,omitempty"`     
 }
 
 type Repository struct {
-	URL       string `json:"url"`      
 	Branch    string `json:"branch"`   
 	Commit    string `json:"commit"`   
 	Timestamp int64  `json:"timestamp"`
+	URL       string `json:"url"`      
 }
 
 type ChainData struct {
-	Repository Repository     `json:"repository"`
 	Chain      ChainDataChain `json:"chain"`     
+	Repository Repository     `json:"repository"`
 }
 
 type ChainDataChain struct {
-	Schema       string       `json:"$schema"`       
-	ChainName    string       `json:"chain_name"`    
-	ChainID      string       `json:"chain_id"`      
-	PrettyName   string       `json:"pretty_name"`   
-	Status       PurpleStatus `json:"status"`        
-	NetworkType  NetworkType  `json:"network_type"`  
-	Bech32Prefix string       `json:"bech32_prefix"` 
-	Genesis      Genesis      `json:"genesis"`       
-	DaemonName   string       `json:"daemon_name"`   
-	NodeHome     string       `json:"node_home"`     
-	KeyAlgos     []string     `json:"key_algos"`     
-	Slip44       int64        `json:"slip44"`        
-	Fees         *Fees        `json:"fees,omitempty"`
-	Codebase     Codebase     `json:"codebase"`      
-	Peers        Peers        `json:"peers"`         
 	Apis         Apis         `json:"apis"`          
-	Explorers    []Explorer   `json:"explorers"`     
-	Name         string       `json:"name"`          
-	Path         string       `json:"path"`          
-	Symbol       string       `json:"symbol"`        
-	Denom        string       `json:"denom"`         
-	Decimals     int64        `json:"decimals"`      
-	CoingeckoID  string       `json:"coingecko_id"`  
-	Image        string       `json:"image"`         
-	Height       int64        `json:"height"`        
+	Bech32Prefix string       `json:"bech32_prefix"` 
 	BestApis     BestApis     `json:"best_apis"`     
+	ChainID      string       `json:"chain_id"`      
+	ChainName    string       `json:"chain_name"`    
+	Codebase     Codebase     `json:"codebase"`      
+	CoingeckoID  string       `json:"coingecko_id"`  
+	DaemonName   string       `json:"daemon_name"`   
+	Decimals     int64        `json:"decimals"`      
+	Denom        string       `json:"denom"`         
+	Explorers    []Explorer   `json:"explorers"`     
+	Fees         *Fees        `json:"fees,omitempty"`
+	Genesis      Genesis      `json:"genesis"`       
+	Height       int64        `json:"height"`        
+	Image        string       `json:"image"`         
+	KeyAlgos     []string     `json:"key_algos"`     
+	Name         string       `json:"name"`          
+	NetworkType  NetworkType  `json:"network_type"`  
+	NodeHome     string       `json:"node_home"`     
 	Params       FluffyParams `json:"params"`        
+	Path         string       `json:"path"`          
+	Peers        Peers        `json:"peers"`         
+	PrettyName   string       `json:"pretty_name"`   
+	Schema       string       `json:"$schema"`       
+	Slip44       int64        `json:"slip44"`        
+	Status       PurpleStatus `json:"status"`        
+	Symbol       string       `json:"symbol"`        
 }
 
 type Apis struct {
-	RPC  []Grpc `json:"rpc"` 
-	REST []Grpc `json:"rest"`
 	Grpc []Grpc `json:"grpc"`
+	REST []Grpc `json:"rest"`
+	RPC  []Grpc `json:"rpc"` 
 }
 
 type Codebase struct {
+	Binaries           *Binaries `json:"binaries,omitempty"` 
+	CompatibleVersions []string  `json:"compatible_versions"`
 	GitRepo            string    `json:"git_repo"`           
 	RecommendedVersion string    `json:"recommended_version"`
-	CompatibleVersions []string  `json:"compatible_versions"`
-	Binaries           *Binaries `json:"binaries,omitempty"` 
 }
 
 type Binaries struct {
+	DarwinAmd64  *string `json:"darwin/amd64,omitempty"` 
 	LinuxAmd64   string  `json:"linux/amd64"`            
 	LinuxArm64   *string `json:"linux/arm64,omitempty"`  
-	DarwinAmd64  *string `json:"darwin/amd64,omitempty"` 
 	WindowsAmd64 *string `json:"windows/amd64,omitempty"`
 }
 
 type Explorer struct {
-	Kind        string  `json:"kind"`                  
-	URL         string  `json:"url"`                   
-	TxPage      string  `json:"tx_page"`               
 	AccountPage *string `json:"account_page,omitempty"`
+	Kind        string  `json:"kind"`                  
+	TxPage      string  `json:"tx_page"`               
+	URL         string  `json:"url"`                   
 }
 
 type Fees struct {
@@ -196,33 +196,33 @@ type Genesis struct {
 }
 
 type FluffyParams struct {
-	Authz                 bool     `json:"authz"`                            
 	ActualBlockTime       float64  `json:"actual_block_time"`                
 	ActualBlocksPerYear   float64  `json:"actual_blocks_per_year"`           
-	UnbondingTime         int64    `json:"unbonding_time"`                   
-	MaxValidators         int64    `json:"max_validators"`                   
-	BlocksPerYear         *int64   `json:"blocks_per_year,omitempty"`        
-	BlockTime             *float64 `json:"block_time,omitempty"`             
-	CommunityTax          *float64 `json:"community_tax,omitempty"`          
+	Authz                 bool     `json:"authz"`                            
 	BaseInflation         float64  `json:"base_inflation"`                   
-	TotalSupply           string   `json:"total_supply"`                     
-	BondedTokens          string   `json:"bonded_tokens"`                    
+	BlockTime             *float64 `json:"block_time,omitempty"`             
+	BlocksPerYear         *int64   `json:"blocks_per_year,omitempty"`        
 	BondedRatio           float64  `json:"bonded_ratio"`                     
-	EstimatedAPR          *float64 `json:"estimated_apr,omitempty"`          
+	BondedTokens          string   `json:"bonded_tokens"`                    
 	CalculatedAPR         float64  `json:"calculated_apr"`                   
-	MintingEpochProvision *float64 `json:"minting_epoch_provision,omitempty"`
+	CommunityTax          *float64 `json:"community_tax,omitempty"`          
 	EpochDuration         *int64   `json:"epoch_duration,omitempty"`         
+	EstimatedAPR          *float64 `json:"estimated_apr,omitempty"`          
+	MaxValidators         int64    `json:"max_validators"`                   
+	MintingEpochProvision *float64 `json:"minting_epoch_provision,omitempty"`
+	TotalSupply           string   `json:"total_supply"`                     
+	UnbondingTime         int64    `json:"unbonding_time"`                   
 	YearMintingProvision  *int64   `json:"year_minting_provision,omitempty"` 
 }
 
 type Peers struct {
-	Seeds           []PersistentPeer `json:"seeds"`           
 	PersistentPeers []PersistentPeer `json:"persistent_peers"`
+	Seeds           []PersistentPeer `json:"seeds"`           
 }
 
 type PersistentPeer struct {
-	ID       string  `json:"id"`                
 	Address  string  `json:"address"`           
+	ID       string  `json:"id"`                
 	Provider *string `json:"provider,omitempty"`
 }
 
@@ -232,22 +232,22 @@ type AllValidatorsData struct {
 }
 
 type AllValidatorsDataValidator struct {
-	Path     string           `json:"path"`    
-	Name     string           `json:"name"`    
-	Identity string           `json:"identity"`
 	Chains   []ValidatorChain `json:"chains"`  
+	Identity string           `json:"identity"`
+	Name     string           `json:"name"`    
+	Path     string           `json:"path"`    
 	Profile  Profile          `json:"profile"` 
 }
 
 type ValidatorChain struct {
-	Name    string        `json:"name"`   
 	Address string        `json:"address"`
+	Name    string        `json:"name"`   
 	Restake *RestakeUnion `json:"restake"`
 }
 
 type Profile struct {
-	Name     string `json:"name"`    
 	Identity string `json:"identity"`
+	Name     string `json:"name"`    
 }
 
 type ValidatorData struct {
@@ -256,36 +256,36 @@ type ValidatorData struct {
 }
 
 type ValidatorDataValidator struct {
-	Path     string         `json:"path"`    
-	Name     string         `json:"name"`    
-	Identity string         `json:"identity"`
 	Chains   []ChainElement `json:"chains"`  
+	Identity string         `json:"identity"`
+	Name     string         `json:"name"`    
+	Path     string         `json:"path"`    
 	Profile  Profile        `json:"profile"` 
 }
 
 type ChainElement struct {
-	Name              *string         `json:"name,omitempty"`          
 	Address           string          `json:"address"`                 
-	Restake           *RestakeClass   `json:"restake,omitempty"`       
-	Moniker           string          `json:"moniker"`                 
-	Identity          *string         `json:"identity,omitempty"`      
-	HexAddress        string          `json:"hexAddress"`              
-	Uptime            *float64        `json:"uptime"`                  
-	MissedBlocks      int64           `json:"missedBlocks"`            
-	OperatorAddress   string          `json:"operator_address"`        
+	Commission        Commission      `json:"commission"`              
 	ConsensusPubkey   ConsensusPubkey `json:"consensus_pubkey"`        
-	Jailed            bool            `json:"jailed"`                  
-	Status            ValidatorStatus `json:"status"`                  
-	Tokens            string          `json:"tokens"`                  
 	DelegatorShares   string          `json:"delegator_shares"`        
 	Description       Description     `json:"description"`             
+	HexAddress        string          `json:"hexAddress"`              
+	Identity          *string         `json:"identity,omitempty"`      
+	Jailed            bool            `json:"jailed"`                  
+	KeybaseImage      *string         `json:"keybase_image,omitempty"` 
+	MinSelfDelegation string          `json:"min_self_delegation"`     
+	MintscanImage     *string         `json:"mintscan_image,omitempty"`
+	MissedBlocks      int64           `json:"missedBlocks"`            
+	Moniker           string          `json:"moniker"`                 
+	Name              *string         `json:"name,omitempty"`          
+	OperatorAddress   string          `json:"operator_address"`        
+	Rank              int64           `json:"rank"`                    
+	Restake           *RestakeClass   `json:"restake,omitempty"`       
+	Status            ValidatorStatus `json:"status"`                  
+	Tokens            string          `json:"tokens"`                  
 	UnbondingHeight   string          `json:"unbonding_height"`        
 	UnbondingTime     string          `json:"unbonding_time"`          
-	Commission        Commission      `json:"commission"`              
-	MinSelfDelegation string          `json:"min_self_delegation"`     
-	Rank              int64           `json:"rank"`                    
-	MintscanImage     *string         `json:"mintscan_image,omitempty"`
-	KeybaseImage      *string         `json:"keybase_image,omitempty"` 
+	Uptime            *float64        `json:"uptime"`                  
 }
 
 type Commission struct {
@@ -294,28 +294,28 @@ type Commission struct {
 }
 
 type CommissionRates struct {
-	Rate          string `json:"rate"`           
-	MaxRate       string `json:"max_rate"`       
 	MaxChangeRate string `json:"max_change_rate"`
+	MaxRate       string `json:"max_rate"`       
+	Rate          string `json:"rate"`           
 }
 
 type ConsensusPubkey struct {
-	Type Type   `json:"@type"`
 	Key  string `json:"key"`  
+	Type Type   `json:"@type"`
 }
 
 type Description struct {
-	Moniker         string `json:"moniker"`         
-	Identity        string `json:"identity"`        
-	Website         string `json:"website"`         
-	SecurityContact string `json:"security_contact"`
 	Details         string `json:"details"`         
+	Identity        string `json:"identity"`        
+	Moniker         string `json:"moniker"`         
+	SecurityContact string `json:"security_contact"`
+	Website         string `json:"website"`         
 }
 
 type RestakeClass struct {
 	Address       string   `json:"address"`       
-	RunTime       *RunTime `json:"run_time"`      
 	MinimumReward int64    `json:"minimum_reward"`
+	RunTime       *RunTime `json:"run_time"`      
 }
 
 type ChainValidatorsData struct {

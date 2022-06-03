@@ -12,26 +12,26 @@
 // match the expected interface, even if the JSON is valid.
 
 export interface AllChainsData {
-    repository: Repository;
     chains:     AllChainsDataChain[];
+    repository: Repository;
 }
 
 export interface AllChainsDataChain {
-    name:          string;
-    path:          string;
-    chain_name:    string;
-    network_type:  NetworkType;
-    pretty_name:   string;
+    best_apis:     BestApis;
     chain_id:      string;
+    chain_name:    string;
+    coingecko_id?: string;
+    decimals?:     number;
+    denom?:        string;
+    height:        number | null;
+    image?:        string;
+    name:          string;
+    network_type:  NetworkType;
+    params:        PurpleParams;
+    path:          string;
+    pretty_name:   string;
     status:        PurpleStatus;
     symbol?:       string;
-    denom?:        string;
-    decimals?:     number;
-    image?:        string;
-    height:        number | null;
-    best_apis:     BestApis;
-    params:        PurpleParams;
-    coingecko_id?: string;
 }
 
 export interface BestApis {
@@ -49,11 +49,11 @@ export enum NetworkType {
 }
 
 export interface PurpleParams {
+    actual_block_time?: number;
     authz?:             boolean;
     bonded_tokens?:     string;
-    total_supply?:      string;
-    actual_block_time?: number;
     calculated_apr?:    number;
+    total_supply?:      string;
 }
 
 export enum PurpleStatus {
@@ -62,72 +62,72 @@ export enum PurpleStatus {
 }
 
 export interface Repository {
-    url:       string;
     branch:    string;
     commit:    string;
     timestamp: number;
+    url:       string;
 }
 
 export interface ChainData {
-    repository: Repository;
     chain:      ChainDataChain;
+    repository: Repository;
 }
 
 export interface ChainDataChain {
     $schema:       string;
-    chain_name:    string;
-    chain_id:      string;
-    pretty_name:   string;
-    status:        PurpleStatus;
-    network_type:  NetworkType;
-    bech32_prefix: string;
-    genesis:       Genesis;
-    daemon_name:   string;
-    node_home:     string;
-    key_algos:     string[];
-    slip44:        number;
-    fees?:         Fees;
-    codebase:      Codebase;
-    peers:         Peers;
     apis:          Apis;
-    explorers:     Explorer[];
-    name:          string;
-    path:          string;
-    symbol:        string;
-    denom:         string;
-    decimals:      number;
-    coingecko_id:  string;
-    image:         string;
-    height:        number;
+    bech32_prefix: string;
     best_apis:     BestApis;
+    chain_id:      string;
+    chain_name:    string;
+    codebase:      Codebase;
+    coingecko_id:  string;
+    daemon_name:   string;
+    decimals:      number;
+    denom:         string;
+    explorers:     Explorer[];
+    fees?:         Fees;
+    genesis:       Genesis;
+    height:        number;
+    image:         string;
+    key_algos:     string[];
+    name:          string;
+    network_type:  NetworkType;
+    node_home:     string;
     params:        FluffyParams;
+    path:          string;
+    peers:         Peers;
+    pretty_name:   string;
+    slip44:        number;
+    status:        PurpleStatus;
+    symbol:        string;
 }
 
 export interface Apis {
-    rpc:  Grpc[];
-    rest: Grpc[];
     grpc: Grpc[];
+    rest: Grpc[];
+    rpc:  Grpc[];
 }
 
 export interface Codebase {
+    binaries?:           Binaries;
+    compatible_versions: string[];
     git_repo:            string;
     recommended_version: string;
-    compatible_versions: string[];
-    binaries?:           Binaries;
 }
 
 export interface Binaries {
+    "darwin/amd64"?:  string;
     "linux/amd64":    string;
     "linux/arm64"?:   string;
-    "darwin/amd64"?:  string;
     "windows/amd64"?: string;
 }
 
 export interface Explorer {
-    kind:          string;
-    url:           string;
-    tx_page:       string;
     account_page?: string;
+    kind:          string;
+    tx_page:       string;
+    url:           string;
 }
 
 export interface Fees {
@@ -144,33 +144,33 @@ export interface Genesis {
 }
 
 export interface FluffyParams {
-    authz:                    boolean;
     actual_block_time:        number;
     actual_blocks_per_year:   number;
-    unbonding_time:           number;
-    max_validators:           number;
-    blocks_per_year?:         number;
-    block_time?:              number;
-    community_tax?:           number;
+    authz:                    boolean;
     base_inflation:           number;
-    total_supply:             string;
-    bonded_tokens:            string;
+    block_time?:              number;
+    blocks_per_year?:         number;
     bonded_ratio:             number;
-    estimated_apr?:           number;
+    bonded_tokens:            string;
     calculated_apr:           number;
-    minting_epoch_provision?: number;
+    community_tax?:           number;
     epoch_duration?:          number;
+    estimated_apr?:           number;
+    max_validators:           number;
+    minting_epoch_provision?: number;
+    total_supply:             string;
+    unbonding_time:           number;
     year_minting_provision?:  number;
 }
 
 export interface Peers {
-    seeds:            PersistentPeer[];
     persistent_peers: PersistentPeer[];
+    seeds:            PersistentPeer[];
 }
 
 export interface PersistentPeer {
-    id:        string;
     address:   string;
+    id:        string;
     provider?: string;
 }
 
@@ -180,22 +180,22 @@ export interface AllValidatorsData {
 }
 
 export interface AllValidatorsDataValidator {
-    path:     string;
-    name:     string;
-    identity: string;
     chains:   ValidatorChain[];
+    identity: string;
+    name:     string;
+    path:     string;
     profile:  Profile;
 }
 
 export interface ValidatorChain {
-    name:    string;
     address: string;
+    name:    string;
     restake: boolean | string;
 }
 
 export interface Profile {
-    name:     string;
     identity: string;
+    name:     string;
 }
 
 export interface ValidatorData {
@@ -204,36 +204,36 @@ export interface ValidatorData {
 }
 
 export interface ValidatorDataValidator {
-    path:     string;
-    name:     string;
-    identity: string;
     chains:   ChainElement[];
+    identity: string;
+    name:     string;
+    path:     string;
     profile:  Profile;
 }
 
 export interface ChainElement {
-    name?:               string;
     address:             string;
-    restake?:            RestakeClass;
-    moniker:             string;
-    identity?:           string;
-    hexAddress:          string;
-    uptime:              number | null;
-    missedBlocks:        number;
-    operator_address:    string;
+    commission:          Commission;
     consensus_pubkey:    ConsensusPubkey;
-    jailed:              boolean;
-    status:              ValidatorStatus;
-    tokens:              string;
     delegator_shares:    string;
     description:         Description;
+    hexAddress:          string;
+    identity?:           string;
+    jailed:              boolean;
+    keybase_image?:      string;
+    min_self_delegation: string;
+    mintscan_image?:     string;
+    missedBlocks:        number;
+    moniker:             string;
+    name?:               string;
+    operator_address:    string;
+    rank:                number;
+    restake?:            RestakeClass;
+    status:              ValidatorStatus;
+    tokens:              string;
     unbonding_height:    string;
     unbonding_time:      Date;
-    commission:          Commission;
-    min_self_delegation: string;
-    rank:                number;
-    mintscan_image?:     string;
-    keybase_image?:      string;
+    uptime:              number | null;
 }
 
 export interface Commission {
@@ -242,9 +242,9 @@ export interface Commission {
 }
 
 export interface CommissionRates {
-    rate:            string;
-    max_rate:        string;
     max_change_rate: string;
+    max_rate:        string;
+    rate:            string;
 }
 
 export interface ConsensusPubkey {
@@ -257,17 +257,17 @@ export enum Type {
 }
 
 export interface Description {
-    moniker:          string;
-    identity:         string;
-    website:          string;
-    security_contact: string;
     details:          string;
+    identity:         string;
+    moniker:          string;
+    security_contact: string;
+    website:          string;
 }
 
 export interface RestakeClass {
     address:        string;
-    run_time:       string[] | string;
     minimum_reward: number;
+    run_time:       string[] | string;
 }
 
 export enum ValidatorStatus {
@@ -459,25 +459,25 @@ function r(name: string) {
 
 const typeMap: any = {
     "AllChainsData": o([
-        { json: "repository", js: "repository", typ: r("Repository") },
         { json: "chains", js: "chains", typ: a(r("AllChainsDataChain")) },
+        { json: "repository", js: "repository", typ: r("Repository") },
     ], false),
     "AllChainsDataChain": o([
-        { json: "name", js: "name", typ: "" },
-        { json: "path", js: "path", typ: "" },
-        { json: "chain_name", js: "chain_name", typ: "" },
-        { json: "network_type", js: "network_type", typ: r("NetworkType") },
-        { json: "pretty_name", js: "pretty_name", typ: "" },
+        { json: "best_apis", js: "best_apis", typ: r("BestApis") },
         { json: "chain_id", js: "chain_id", typ: "" },
+        { json: "chain_name", js: "chain_name", typ: "" },
+        { json: "coingecko_id", js: "coingecko_id", typ: u(undefined, "") },
+        { json: "decimals", js: "decimals", typ: u(undefined, 0) },
+        { json: "denom", js: "denom", typ: u(undefined, "") },
+        { json: "height", js: "height", typ: u(0, null) },
+        { json: "image", js: "image", typ: u(undefined, "") },
+        { json: "name", js: "name", typ: "" },
+        { json: "network_type", js: "network_type", typ: r("NetworkType") },
+        { json: "params", js: "params", typ: r("PurpleParams") },
+        { json: "path", js: "path", typ: "" },
+        { json: "pretty_name", js: "pretty_name", typ: "" },
         { json: "status", js: "status", typ: r("PurpleStatus") },
         { json: "symbol", js: "symbol", typ: u(undefined, "") },
-        { json: "denom", js: "denom", typ: u(undefined, "") },
-        { json: "decimals", js: "decimals", typ: u(undefined, 0) },
-        { json: "image", js: "image", typ: u(undefined, "") },
-        { json: "height", js: "height", typ: u(0, null) },
-        { json: "best_apis", js: "best_apis", typ: r("BestApis") },
-        { json: "params", js: "params", typ: r("PurpleParams") },
-        { json: "coingecko_id", js: "coingecko_id", typ: u(undefined, "") },
     ], false),
     "BestApis": o([
         { json: "rest", js: "rest", typ: a(r("Grpc")) },
@@ -488,73 +488,73 @@ const typeMap: any = {
         { json: "provider", js: "provider", typ: u(undefined, "") },
     ], false),
     "PurpleParams": o([
+        { json: "actual_block_time", js: "actual_block_time", typ: u(undefined, 3.14) },
         { json: "authz", js: "authz", typ: u(undefined, true) },
         { json: "bonded_tokens", js: "bonded_tokens", typ: u(undefined, "") },
-        { json: "total_supply", js: "total_supply", typ: u(undefined, "") },
-        { json: "actual_block_time", js: "actual_block_time", typ: u(undefined, 3.14) },
         { json: "calculated_apr", js: "calculated_apr", typ: u(undefined, 3.14) },
+        { json: "total_supply", js: "total_supply", typ: u(undefined, "") },
     ], false),
     "Repository": o([
-        { json: "url", js: "url", typ: "" },
         { json: "branch", js: "branch", typ: "" },
         { json: "commit", js: "commit", typ: "" },
         { json: "timestamp", js: "timestamp", typ: 0 },
+        { json: "url", js: "url", typ: "" },
     ], false),
     "ChainData": o([
-        { json: "repository", js: "repository", typ: r("Repository") },
         { json: "chain", js: "chain", typ: r("ChainDataChain") },
+        { json: "repository", js: "repository", typ: r("Repository") },
     ], false),
     "ChainDataChain": o([
         { json: "$schema", js: "$schema", typ: "" },
-        { json: "chain_name", js: "chain_name", typ: "" },
-        { json: "chain_id", js: "chain_id", typ: "" },
-        { json: "pretty_name", js: "pretty_name", typ: "" },
-        { json: "status", js: "status", typ: r("PurpleStatus") },
-        { json: "network_type", js: "network_type", typ: r("NetworkType") },
-        { json: "bech32_prefix", js: "bech32_prefix", typ: "" },
-        { json: "genesis", js: "genesis", typ: r("Genesis") },
-        { json: "daemon_name", js: "daemon_name", typ: "" },
-        { json: "node_home", js: "node_home", typ: "" },
-        { json: "key_algos", js: "key_algos", typ: a("") },
-        { json: "slip44", js: "slip44", typ: 0 },
-        { json: "fees", js: "fees", typ: u(undefined, r("Fees")) },
-        { json: "codebase", js: "codebase", typ: r("Codebase") },
-        { json: "peers", js: "peers", typ: r("Peers") },
         { json: "apis", js: "apis", typ: r("Apis") },
-        { json: "explorers", js: "explorers", typ: a(r("Explorer")) },
-        { json: "name", js: "name", typ: "" },
-        { json: "path", js: "path", typ: "" },
-        { json: "symbol", js: "symbol", typ: "" },
-        { json: "denom", js: "denom", typ: "" },
-        { json: "decimals", js: "decimals", typ: 0 },
-        { json: "coingecko_id", js: "coingecko_id", typ: "" },
-        { json: "image", js: "image", typ: "" },
-        { json: "height", js: "height", typ: 0 },
+        { json: "bech32_prefix", js: "bech32_prefix", typ: "" },
         { json: "best_apis", js: "best_apis", typ: r("BestApis") },
+        { json: "chain_id", js: "chain_id", typ: "" },
+        { json: "chain_name", js: "chain_name", typ: "" },
+        { json: "codebase", js: "codebase", typ: r("Codebase") },
+        { json: "coingecko_id", js: "coingecko_id", typ: "" },
+        { json: "daemon_name", js: "daemon_name", typ: "" },
+        { json: "decimals", js: "decimals", typ: 0 },
+        { json: "denom", js: "denom", typ: "" },
+        { json: "explorers", js: "explorers", typ: a(r("Explorer")) },
+        { json: "fees", js: "fees", typ: u(undefined, r("Fees")) },
+        { json: "genesis", js: "genesis", typ: r("Genesis") },
+        { json: "height", js: "height", typ: 0 },
+        { json: "image", js: "image", typ: "" },
+        { json: "key_algos", js: "key_algos", typ: a("") },
+        { json: "name", js: "name", typ: "" },
+        { json: "network_type", js: "network_type", typ: r("NetworkType") },
+        { json: "node_home", js: "node_home", typ: "" },
         { json: "params", js: "params", typ: r("FluffyParams") },
+        { json: "path", js: "path", typ: "" },
+        { json: "peers", js: "peers", typ: r("Peers") },
+        { json: "pretty_name", js: "pretty_name", typ: "" },
+        { json: "slip44", js: "slip44", typ: 0 },
+        { json: "status", js: "status", typ: r("PurpleStatus") },
+        { json: "symbol", js: "symbol", typ: "" },
     ], false),
     "Apis": o([
-        { json: "rpc", js: "rpc", typ: a(r("Grpc")) },
-        { json: "rest", js: "rest", typ: a(r("Grpc")) },
         { json: "grpc", js: "grpc", typ: a(r("Grpc")) },
+        { json: "rest", js: "rest", typ: a(r("Grpc")) },
+        { json: "rpc", js: "rpc", typ: a(r("Grpc")) },
     ], false),
     "Codebase": o([
+        { json: "binaries", js: "binaries", typ: u(undefined, r("Binaries")) },
+        { json: "compatible_versions", js: "compatible_versions", typ: a("") },
         { json: "git_repo", js: "git_repo", typ: "" },
         { json: "recommended_version", js: "recommended_version", typ: "" },
-        { json: "compatible_versions", js: "compatible_versions", typ: a("") },
-        { json: "binaries", js: "binaries", typ: u(undefined, r("Binaries")) },
     ], false),
     "Binaries": o([
+        { json: "darwin/amd64", js: "darwin/amd64", typ: u(undefined, "") },
         { json: "linux/amd64", js: "linux/amd64", typ: "" },
         { json: "linux/arm64", js: "linux/arm64", typ: u(undefined, "") },
-        { json: "darwin/amd64", js: "darwin/amd64", typ: u(undefined, "") },
         { json: "windows/amd64", js: "windows/amd64", typ: u(undefined, "") },
     ], false),
     "Explorer": o([
-        { json: "kind", js: "kind", typ: "" },
-        { json: "url", js: "url", typ: "" },
-        { json: "tx_page", js: "tx_page", typ: "" },
         { json: "account_page", js: "account_page", typ: u(undefined, "") },
+        { json: "kind", js: "kind", typ: "" },
+        { json: "tx_page", js: "tx_page", typ: "" },
+        { json: "url", js: "url", typ: "" },
     ], false),
     "Fees": o([
         { json: "fee_tokens", js: "fee_tokens", typ: a(r("FeeToken")) },
@@ -567,31 +567,31 @@ const typeMap: any = {
         { json: "genesis_url", js: "genesis_url", typ: "" },
     ], false),
     "FluffyParams": o([
-        { json: "authz", js: "authz", typ: true },
         { json: "actual_block_time", js: "actual_block_time", typ: 3.14 },
         { json: "actual_blocks_per_year", js: "actual_blocks_per_year", typ: 3.14 },
-        { json: "unbonding_time", js: "unbonding_time", typ: 0 },
-        { json: "max_validators", js: "max_validators", typ: 0 },
-        { json: "blocks_per_year", js: "blocks_per_year", typ: u(undefined, 0) },
-        { json: "block_time", js: "block_time", typ: u(undefined, 3.14) },
-        { json: "community_tax", js: "community_tax", typ: u(undefined, 3.14) },
+        { json: "authz", js: "authz", typ: true },
         { json: "base_inflation", js: "base_inflation", typ: 3.14 },
-        { json: "total_supply", js: "total_supply", typ: "" },
-        { json: "bonded_tokens", js: "bonded_tokens", typ: "" },
+        { json: "block_time", js: "block_time", typ: u(undefined, 3.14) },
+        { json: "blocks_per_year", js: "blocks_per_year", typ: u(undefined, 0) },
         { json: "bonded_ratio", js: "bonded_ratio", typ: 3.14 },
-        { json: "estimated_apr", js: "estimated_apr", typ: u(undefined, 3.14) },
+        { json: "bonded_tokens", js: "bonded_tokens", typ: "" },
         { json: "calculated_apr", js: "calculated_apr", typ: 3.14 },
-        { json: "minting_epoch_provision", js: "minting_epoch_provision", typ: u(undefined, 3.14) },
+        { json: "community_tax", js: "community_tax", typ: u(undefined, 3.14) },
         { json: "epoch_duration", js: "epoch_duration", typ: u(undefined, 0) },
+        { json: "estimated_apr", js: "estimated_apr", typ: u(undefined, 3.14) },
+        { json: "max_validators", js: "max_validators", typ: 0 },
+        { json: "minting_epoch_provision", js: "minting_epoch_provision", typ: u(undefined, 3.14) },
+        { json: "total_supply", js: "total_supply", typ: "" },
+        { json: "unbonding_time", js: "unbonding_time", typ: 0 },
         { json: "year_minting_provision", js: "year_minting_provision", typ: u(undefined, 0) },
     ], false),
     "Peers": o([
-        { json: "seeds", js: "seeds", typ: a(r("PersistentPeer")) },
         { json: "persistent_peers", js: "persistent_peers", typ: a(r("PersistentPeer")) },
+        { json: "seeds", js: "seeds", typ: a(r("PersistentPeer")) },
     ], false),
     "PersistentPeer": o([
-        { json: "id", js: "id", typ: "" },
         { json: "address", js: "address", typ: "" },
+        { json: "id", js: "id", typ: "" },
         { json: "provider", js: "provider", typ: u(undefined, "") },
     ], false),
     "AllValidatorsData": o([
@@ -599,80 +599,80 @@ const typeMap: any = {
         { json: "validators", js: "validators", typ: a(r("AllValidatorsDataValidator")) },
     ], false),
     "AllValidatorsDataValidator": o([
-        { json: "path", js: "path", typ: "" },
-        { json: "name", js: "name", typ: "" },
-        { json: "identity", js: "identity", typ: "" },
         { json: "chains", js: "chains", typ: a(r("ValidatorChain")) },
+        { json: "identity", js: "identity", typ: "" },
+        { json: "name", js: "name", typ: "" },
+        { json: "path", js: "path", typ: "" },
         { json: "profile", js: "profile", typ: r("Profile") },
     ], false),
     "ValidatorChain": o([
-        { json: "name", js: "name", typ: "" },
         { json: "address", js: "address", typ: "" },
+        { json: "name", js: "name", typ: "" },
         { json: "restake", js: "restake", typ: u(true, "") },
     ], false),
     "Profile": o([
-        { json: "name", js: "name", typ: "" },
         { json: "identity", js: "identity", typ: "" },
+        { json: "name", js: "name", typ: "" },
     ], false),
     "ValidatorData": o([
         { json: "repository", js: "repository", typ: r("Repository") },
         { json: "validator", js: "validator", typ: r("ValidatorDataValidator") },
     ], false),
     "ValidatorDataValidator": o([
-        { json: "path", js: "path", typ: "" },
-        { json: "name", js: "name", typ: "" },
-        { json: "identity", js: "identity", typ: "" },
         { json: "chains", js: "chains", typ: a(r("ChainElement")) },
+        { json: "identity", js: "identity", typ: "" },
+        { json: "name", js: "name", typ: "" },
+        { json: "path", js: "path", typ: "" },
         { json: "profile", js: "profile", typ: r("Profile") },
     ], false),
     "ChainElement": o([
-        { json: "name", js: "name", typ: u(undefined, "") },
         { json: "address", js: "address", typ: "" },
-        { json: "restake", js: "restake", typ: u(undefined, r("RestakeClass")) },
-        { json: "moniker", js: "moniker", typ: "" },
-        { json: "identity", js: "identity", typ: u(undefined, "") },
-        { json: "hexAddress", js: "hexAddress", typ: "" },
-        { json: "uptime", js: "uptime", typ: u(3.14, null) },
-        { json: "missedBlocks", js: "missedBlocks", typ: 0 },
-        { json: "operator_address", js: "operator_address", typ: "" },
+        { json: "commission", js: "commission", typ: r("Commission") },
         { json: "consensus_pubkey", js: "consensus_pubkey", typ: r("ConsensusPubkey") },
-        { json: "jailed", js: "jailed", typ: true },
-        { json: "status", js: "status", typ: r("ValidatorStatus") },
-        { json: "tokens", js: "tokens", typ: "" },
         { json: "delegator_shares", js: "delegator_shares", typ: "" },
         { json: "description", js: "description", typ: r("Description") },
+        { json: "hexAddress", js: "hexAddress", typ: "" },
+        { json: "identity", js: "identity", typ: u(undefined, "") },
+        { json: "jailed", js: "jailed", typ: true },
+        { json: "keybase_image", js: "keybase_image", typ: u(undefined, "") },
+        { json: "min_self_delegation", js: "min_self_delegation", typ: "" },
+        { json: "mintscan_image", js: "mintscan_image", typ: u(undefined, "") },
+        { json: "missedBlocks", js: "missedBlocks", typ: 0 },
+        { json: "moniker", js: "moniker", typ: "" },
+        { json: "name", js: "name", typ: u(undefined, "") },
+        { json: "operator_address", js: "operator_address", typ: "" },
+        { json: "rank", js: "rank", typ: 0 },
+        { json: "restake", js: "restake", typ: u(undefined, r("RestakeClass")) },
+        { json: "status", js: "status", typ: r("ValidatorStatus") },
+        { json: "tokens", js: "tokens", typ: "" },
         { json: "unbonding_height", js: "unbonding_height", typ: "" },
         { json: "unbonding_time", js: "unbonding_time", typ: Date },
-        { json: "commission", js: "commission", typ: r("Commission") },
-        { json: "min_self_delegation", js: "min_self_delegation", typ: "" },
-        { json: "rank", js: "rank", typ: 0 },
-        { json: "mintscan_image", js: "mintscan_image", typ: u(undefined, "") },
-        { json: "keybase_image", js: "keybase_image", typ: u(undefined, "") },
+        { json: "uptime", js: "uptime", typ: u(3.14, null) },
     ], false),
     "Commission": o([
         { json: "commission_rates", js: "commission_rates", typ: r("CommissionRates") },
         { json: "update_time", js: "update_time", typ: Date },
     ], false),
     "CommissionRates": o([
-        { json: "rate", js: "rate", typ: "" },
-        { json: "max_rate", js: "max_rate", typ: "" },
         { json: "max_change_rate", js: "max_change_rate", typ: "" },
+        { json: "max_rate", js: "max_rate", typ: "" },
+        { json: "rate", js: "rate", typ: "" },
     ], false),
     "ConsensusPubkey": o([
         { json: "@type", js: "@type", typ: r("Type") },
         { json: "key", js: "key", typ: "" },
     ], false),
     "Description": o([
-        { json: "moniker", js: "moniker", typ: "" },
-        { json: "identity", js: "identity", typ: "" },
-        { json: "website", js: "website", typ: "" },
-        { json: "security_contact", js: "security_contact", typ: "" },
         { json: "details", js: "details", typ: "" },
+        { json: "identity", js: "identity", typ: "" },
+        { json: "moniker", js: "moniker", typ: "" },
+        { json: "security_contact", js: "security_contact", typ: "" },
+        { json: "website", js: "website", typ: "" },
     ], false),
     "RestakeClass": o([
         { json: "address", js: "address", typ: "" },
-        { json: "run_time", js: "run_time", typ: u(a(""), "") },
         { json: "minimum_reward", js: "minimum_reward", typ: 0 },
+        { json: "run_time", js: "run_time", typ: u(a(""), "") },
     ], false),
     "ChainValidatorsData": o([
         { json: "name", js: "name", typ: "" },
