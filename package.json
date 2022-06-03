@@ -2,10 +2,18 @@
   "name": "cosmos-directory-types",
   "version": "0.0.0",
   "dependencies": {
-    "quicktype": "latest"
+    "quicktype-core": "latest"
   },
   "resolutions": {
     "node-fetch": "npm:node-fetch-native@latest"
   },
+  "prettier": {
+    "endOfLine": "auto",
+    "printWidth": 120,
+    "semi": true,
+    "singleQuote": false,
+    "trailingComma": "all"
+  },
+  "type": "module",
   "private": true
 }
