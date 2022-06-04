@@ -1,9 +1,11 @@
 CHAINS_ENDPOINT := https://chains.cosmos.directory
 VALIDATORS_ENDPOINT := https://validators.cosmos.directory
 
+SAMPLE_DIRNAMES := chains chain validators validator chain-validators
+
 prepare:
 	yarn install
-	mkdir -p samples/{chains,chain,validators,validator,chain-validators}/
+	mkdir -p $(foreach dirname,$(SAMPLE_DIRNAMES),samples/$(dirname))
 	curl -s "$(CHAINS_ENDPOINT)" > samples/chains/index.json
 	curl -s "$(CHAINS_ENDPOINT)/cosmoshub" > samples/chain/cosmoshub.json
 	curl -s "$(CHAINS_ENDPOINT)/juno" > samples/chain/juno.json
