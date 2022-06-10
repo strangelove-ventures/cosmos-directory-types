@@ -769,25 +769,33 @@ class ValidatorChain:
         return result
 
 
+class Schema(Enum):
+    PROFILE_SCHEMA_JSON = "../profile.schema.json"
+
+
 class Profile:
     identity: str
     name: str
+    schema: Schema
 
-    def __init__(self, identity: str, name: str) -> None:
+    def __init__(self, identity: str, name: str, schema: Schema) -> None:
         self.identity = identity
         self.name = name
+        self.schema = schema
 
     @staticmethod
     def from_dict(obj: Any) -> 'Profile':
         assert isinstance(obj, dict)
         identity = from_str(obj.get("identity"))
         name = from_str(obj.get("name"))
-        return Profile(identity, name)
+        schema = Schema(obj.get("$schema"))
+        return Profile(identity, name, schema)
 
     def to_dict(self) -> dict:
         result: dict = {}
         result["identity"] = from_str(self.identity)
         result["name"] = from_str(self.name)
+        result["$schema"] = to_enum(Schema, self.schema)
         return result
 
 

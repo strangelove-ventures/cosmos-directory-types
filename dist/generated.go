@@ -248,6 +248,7 @@ type ValidatorChain struct {
 type Profile struct {
 	Identity string `json:"identity"`
 	Name     string `json:"name"`    
+	Schema   Schema `json:"$schema"` 
 }
 
 type ValidatorData struct {
@@ -332,6 +333,11 @@ type PurpleStatus string
 const (
 	Killed PurpleStatus = "killed"
 	Live PurpleStatus = "live"
+)
+
+type Schema string
+const (
+	ProfileSchemaJSON Schema = "../profile.schema.json"
 )
 
 type Type string

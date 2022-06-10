@@ -413,6 +413,9 @@ pub struct Profile {
 
     #[serde(rename = "name")]
     name: String,
+
+    #[serde(rename = "$schema")]
+    schema: Schema,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -609,6 +612,12 @@ pub enum PurpleStatus {
 
     #[serde(rename = "live")]
     Live,
+}
+
+#[derive(Serialize, Deserialize)]
+pub enum Schema {
+    #[serde(rename = "../profile.schema.json")]
+    ProfileSchemaJson,
 }
 
 #[derive(Serialize, Deserialize)]

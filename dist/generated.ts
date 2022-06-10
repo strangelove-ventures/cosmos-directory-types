@@ -194,8 +194,13 @@ export interface ValidatorChain {
 }
 
 export interface Profile {
+    $schema:  Schema;
     identity: string;
     name:     string;
+}
+
+export enum Schema {
+    ProfileSchemaJSON = "../profile.schema.json",
 }
 
 export interface ValidatorData {
@@ -611,6 +616,7 @@ const typeMap: any = {
         { json: "restake", js: "restake", typ: u(true, "") },
     ], false),
     "Profile": o([
+        { json: "$schema", js: "$schema", typ: r("Schema") },
         { json: "identity", js: "identity", typ: "" },
         { json: "name", js: "name", typ: "" },
     ], false),
@@ -684,6 +690,9 @@ const typeMap: any = {
     "PurpleStatus": [
         "killed",
         "live",
+    ],
+    "Schema": [
+        "../profile.schema.json",
     ],
     "Type": [
         "/cosmos.crypto.ed25519.PubKey",
