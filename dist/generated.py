@@ -324,10 +324,10 @@ class Apis:
 class Binaries:
     darwin_amd64: Optional[str]
     linux_amd64: str
-    linux_arm64: Optional[str]
+    linux_arm64: str
     windows_amd64: Optional[str]
 
-    def __init__(self, darwin_amd64: Optional[str], linux_amd64: str, linux_arm64: Optional[str], windows_amd64: Optional[str]) -> None:
+    def __init__(self, darwin_amd64: Optional[str], linux_amd64: str, linux_arm64: str, windows_amd64: Optional[str]) -> None:
         self.darwin_amd64 = darwin_amd64
         self.linux_amd64 = linux_amd64
         self.linux_arm64 = linux_arm64
@@ -338,7 +338,7 @@ class Binaries:
         assert isinstance(obj, dict)
         darwin_amd64 = from_union([from_none, from_str], obj.get("darwin/amd64"))
         linux_amd64 = from_str(obj.get("linux/amd64"))
-        linux_arm64 = from_union([from_none, from_str], obj.get("linux/arm64"))
+        linux_arm64 = from_str(obj.get("linux/arm64"))
         windows_amd64 = from_union([from_none, from_str], obj.get("windows/amd64"))
         return Binaries(darwin_amd64, linux_amd64, linux_arm64, windows_amd64)
 
@@ -346,7 +346,7 @@ class Binaries:
         result: dict = {}
         result["darwin/amd64"] = from_union([from_none, from_str], self.darwin_amd64)
         result["linux/amd64"] = from_str(self.linux_amd64)
-        result["linux/arm64"] = from_union([from_none, from_str], self.linux_arm64)
+        result["linux/arm64"] = from_str(self.linux_arm64)
         result["windows/amd64"] = from_union([from_none, from_str], self.windows_amd64)
         return result
 

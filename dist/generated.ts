@@ -119,7 +119,7 @@ export interface Codebase {
 export interface Binaries {
     "darwin/amd64"?:  string;
     "linux/amd64":    string;
-    "linux/arm64"?:   string;
+    "linux/arm64":    string;
     "windows/amd64"?: string;
 }
 
@@ -552,7 +552,7 @@ const typeMap: any = {
     "Binaries": o([
         { json: "darwin/amd64", js: "darwin/amd64", typ: u(undefined, "") },
         { json: "linux/amd64", js: "linux/amd64", typ: "" },
-        { json: "linux/arm64", js: "linux/arm64", typ: u(undefined, "") },
+        { json: "linux/arm64", js: "linux/arm64", typ: "" },
         { json: "windows/amd64", js: "windows/amd64", typ: u(undefined, "") },
     ], false),
     "Explorer": o([

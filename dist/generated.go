@@ -171,7 +171,7 @@ type Codebase struct {
 type Binaries struct {
 	DarwinAmd64  *string `json:"darwin/amd64,omitempty"` 
 	LinuxAmd64   string  `json:"linux/amd64"`            
-	LinuxArm64   *string `json:"linux/arm64,omitempty"`  
+	LinuxArm64   string  `json:"linux/arm64"`            
 	WindowsAmd64 *string `json:"windows/amd64,omitempty"`
 }
 

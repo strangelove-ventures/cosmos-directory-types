@@ -250,7 +250,7 @@ pub struct Binaries {
     linux_amd64: String,
 
     #[serde(rename = "linux/arm64")]
-    linux_arm64: Option<String>,
+    linux_arm64: String,
 
     #[serde(rename = "windows/amd64")]
     windows_amd64: Option<String>,
