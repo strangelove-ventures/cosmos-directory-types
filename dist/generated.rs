@@ -415,7 +415,7 @@ pub struct Profile {
     name: String,
 
     #[serde(rename = "$schema")]
-    schema: Schema,
+    schema: Option<Schema>,
 }
 
 #[derive(Serialize, Deserialize)]

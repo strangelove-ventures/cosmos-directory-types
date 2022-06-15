@@ -194,7 +194,7 @@ export interface ValidatorChain {
 }
 
 export interface Profile {
-    $schema:  Schema;
+    $schema?: Schema;
     identity: string;
     name:     string;
 }
@@ -616,7 +616,7 @@ const typeMap: any = {
         { json: "restake", js: "restake", typ: u(true, "") },
     ], false),
     "Profile": o([
-        { json: "$schema", js: "$schema", typ: r("Schema") },
+        { json: "$schema", js: "$schema", typ: u(undefined, r("Schema")) },
         { json: "identity", js: "identity", typ: "" },
         { json: "name", js: "name", typ: "" },
     ], false),

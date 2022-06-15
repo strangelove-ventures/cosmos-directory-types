@@ -246,9 +246,9 @@ type ValidatorChain struct {
 }
 
 type Profile struct {
-	Identity string `json:"identity"`
-	Name     string `json:"name"`    
-	Schema   Schema `json:"$schema"` 
+	Identity string  `json:"identity"`         
+	Name     string  `json:"name"`             
+	Schema   *Schema `json:"$schema,omitempty"`
 }
 
 type ValidatorData struct {

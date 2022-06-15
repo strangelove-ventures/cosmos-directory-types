@@ -776,9 +776,9 @@ class Schema(Enum):
 class Profile:
     identity: str
     name: str
-    schema: Schema
+    schema: Optional[Schema]
 
-    def __init__(self, identity: str, name: str, schema: Schema) -> None:
+    def __init__(self, identity: str, name: str, schema: Optional[Schema]) -> None:
         self.identity = identity
         self.name = name
         self.schema = schema
@@ -788,14 +788,14 @@ class Profile:
         assert isinstance(obj, dict)
         identity = from_str(obj.get("identity"))
         name = from_str(obj.get("name"))
-        schema = Schema(obj.get("$schema"))
+        schema = from_union([Schema, from_none], obj.get("$schema"))
         return Profile(identity, name, schema)
 
     def to_dict(self) -> dict:
         result: dict = {}
         result["identity"] = from_str(self.identity)
         result["name"] = from_str(self.name)
-        result["$schema"] = to_enum(Schema, self.schema)
+        result["$schema"] = from_union([lambda x: to_enum(Schema, x), from_none], self.schema)
         return result
 
 
