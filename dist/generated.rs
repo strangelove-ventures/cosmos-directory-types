@@ -492,6 +492,12 @@ pub struct ChainElement {
     #[serde(rename = "operator_address")]
     operator_address: String,
 
+    #[serde(rename = "path")]
+    path: Option<String>,
+
+    #[serde(rename = "profile")]
+    profile: Option<Profile>,
+
     #[serde(rename = "rank")]
     rank: i64,
 

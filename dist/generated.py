@@ -1011,6 +1011,8 @@ class ChainElement:
     moniker: str
     name: Optional[str]
     operator_address: str
+    path: Optional[str]
+    profile: Optional[Profile]
     rank: int
     restake: Optional[RestakeClass]
     status: ValidatorStatus
@@ -1019,7 +1021,7 @@ class ChainElement:
     unbonding_time: datetime
     uptime: Optional[float]
 
-    def __init__(self, address: str, commission: Commission, consensus_pubkey: ConsensusPubkey, delegator_shares: str, description: Description, hex_address: str, identity: Optional[str], jailed: bool, keybase_image: Optional[str], min_self_delegation: str, mintscan_image: Optional[str], missed_blocks: int, moniker: str, name: Optional[str], operator_address: str, rank: int, restake: Optional[RestakeClass], status: ValidatorStatus, tokens: str, unbonding_height: int, unbonding_time: datetime, uptime: Optional[float]) -> None:
+    def __init__(self, address: str, commission: Commission, consensus_pubkey: ConsensusPubkey, delegator_shares: str, description: Description, hex_address: str, identity: Optional[str], jailed: bool, keybase_image: Optional[str], min_self_delegation: str, mintscan_image: Optional[str], missed_blocks: int, moniker: str, name: Optional[str], operator_address: str, path: Optional[str], profile: Optional[Profile], rank: int, restake: Optional[RestakeClass], status: ValidatorStatus, tokens: str, unbonding_height: int, unbonding_time: datetime, uptime: Optional[float]) -> None:
         self.address = address
         self.commission = commission
         self.consensus_pubkey = consensus_pubkey
@@ -1035,6 +1037,8 @@ class ChainElement:
         self.moniker = moniker
         self.name = name
         self.operator_address = operator_address
+        self.path = path
+        self.profile = profile
         self.rank = rank
         self.restake = restake
         self.status = status
@@ -1061,6 +1065,8 @@ class ChainElement:
         moniker = from_str(obj.get("moniker"))
         name = from_union([from_none, from_str], obj.get("name"))
         operator_address = from_str(obj.get("operator_address"))
+        path = from_union([from_none, from_str], obj.get("path"))
+        profile = from_union([Profile.from_dict, from_none], obj.get("profile"))
         rank = from_int(obj.get("rank"))
         restake = from_union([RestakeClass.from_dict, from_none], obj.get("restake"))
         status = ValidatorStatus(obj.get("status"))
@@ -1068,7 +1074,7 @@ class ChainElement:
         unbonding_height = int(from_str(obj.get("unbonding_height")))
         unbonding_time = from_datetime(obj.get("unbonding_time"))
         uptime = from_union([from_float, from_none], obj.get("uptime"))
-        return ChainElement(address, commission, consensus_pubkey, delegator_shares, description, hex_address, identity, jailed, keybase_image, min_self_delegation, mintscan_image, missed_blocks, moniker, name, operator_address, rank, restake, status, tokens, unbonding_height, unbonding_time, uptime)
+        return ChainElement(address, commission, consensus_pubkey, delegator_shares, description, hex_address, identity, jailed, keybase_image, min_self_delegation, mintscan_image, missed_blocks, moniker, name, operator_address, path, profile, rank, restake, status, tokens, unbonding_height, unbonding_time, uptime)
 
     def to_dict(self) -> dict:
         result: dict = {}
@@ -1087,6 +1093,8 @@ class ChainElement:
         result["moniker"] = from_str(self.moniker)
         result["name"] = from_union([from_none, from_str], self.name)
         result["operator_address"] = from_str(self.operator_address)
+        result["path"] = from_union([from_none, from_str], self.path)
+        result["profile"] = from_union([lambda x: to_class(Profile, x), from_none], self.profile)
         result["rank"] = from_int(self.rank)
         result["restake"] = from_union([lambda x: to_class(RestakeClass, x), from_none], self.restake)
         result["status"] = to_enum(ValidatorStatus, self.status)

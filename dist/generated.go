@@ -280,6 +280,8 @@ type ChainElement struct {
 	Moniker           string          `json:"moniker"`                 
 	Name              *string         `json:"name,omitempty"`          
 	OperatorAddress   string          `json:"operator_address"`        
+	Path              *string         `json:"path,omitempty"`          
+	Profile           *Profile        `json:"profile,omitempty"`       
 	Rank              int64           `json:"rank"`                    
 	Restake           *RestakeClass   `json:"restake,omitempty"`       
 	Status            ValidatorStatus `json:"status"`                  

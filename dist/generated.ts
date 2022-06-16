@@ -232,6 +232,8 @@ export interface ChainElement {
     moniker:             string;
     name?:               string;
     operator_address:    string;
+    path?:               string;
+    profile?:            Profile;
     rank:                number;
     restake?:            RestakeClass;
     status:              ValidatorStatus;
@@ -647,6 +649,8 @@ const typeMap: any = {
         { json: "moniker", js: "moniker", typ: "" },
         { json: "name", js: "name", typ: u(undefined, "") },
         { json: "operator_address", js: "operator_address", typ: "" },
+        { json: "path", js: "path", typ: u(undefined, "") },
+        { json: "profile", js: "profile", typ: u(undefined, r("Profile")) },
         { json: "rank", js: "rank", typ: 0 },
         { json: "restake", js: "restake", typ: u(undefined, r("RestakeClass")) },
         { json: "status", js: "status", typ: r("ValidatorStatus") },
