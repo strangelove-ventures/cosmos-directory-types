@@ -180,6 +180,9 @@ pub struct ChainDataChain {
     #[serde(rename = "key_algos")]
     key_algos: Vec<String>,
 
+    #[serde(rename = "logo_URIs")]
+    logo_ur_is: Option<LogoUrIs>,
+
     #[serde(rename = "name")]
     name: String,
 
@@ -290,6 +293,12 @@ pub struct FeeToken {
 pub struct Genesis {
     #[serde(rename = "genesis_url")]
     genesis_url: String,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct LogoUrIs {
+    #[serde(rename = "png")]
+    png: String,
 }
 
 #[derive(Serialize, Deserialize)]

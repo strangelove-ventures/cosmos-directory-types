@@ -91,6 +91,7 @@ export interface ChainDataChain {
     height:        number;
     image:         string;
     key_algos:     string[];
+    logo_URIs?:    LogoURIs;
     name:          string;
     network_type:  NetworkType;
     node_home:     string;
@@ -141,6 +142,10 @@ export interface FeeToken {
 
 export interface Genesis {
     genesis_url: string;
+}
+
+export interface LogoURIs {
+    png: string;
 }
 
 export interface FluffyParams {
@@ -529,6 +534,7 @@ const typeMap: any = {
         { json: "height", js: "height", typ: 0 },
         { json: "image", js: "image", typ: "" },
         { json: "key_algos", js: "key_algos", typ: a("") },
+        { json: "logo_URIs", js: "logo_URIs", typ: u(undefined, r("LogoURIs")) },
         { json: "name", js: "name", typ: "" },
         { json: "network_type", js: "network_type", typ: r("NetworkType") },
         { json: "node_home", js: "node_home", typ: "" },
@@ -572,6 +578,9 @@ const typeMap: any = {
     ], false),
     "Genesis": o([
         { json: "genesis_url", js: "genesis_url", typ: "" },
+    ], false),
+    "LogoURIs": o([
+        { json: "png", js: "png", typ: "" },
     ], false),
     "FluffyParams": o([
         { json: "actual_block_time", js: "actual_block_time", typ: 3.14 },

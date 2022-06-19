@@ -469,6 +469,24 @@ class Genesis:
         return result
 
 
+class LogoURIs:
+    png: str
+
+    def __init__(self, png: str) -> None:
+        self.png = png
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'LogoURIs':
+        assert isinstance(obj, dict)
+        png = from_str(obj.get("png"))
+        return LogoURIs(png)
+
+    def to_dict(self) -> dict:
+        result: dict = {}
+        result["png"] = from_str(self.png)
+        return result
+
+
 class FluffyParams:
     actual_block_time: float
     actual_blocks_per_year: float
@@ -616,6 +634,7 @@ class ChainDataChain:
     height: int
     image: str
     key_algos: List[str]
+    logo_ur_is: Optional[LogoURIs]
     name: str
     network_type: NetworkType
     node_home: str
@@ -628,7 +647,7 @@ class ChainDataChain:
     status: PurpleStatus
     symbol: str
 
-    def __init__(self, apis: Apis, bech32_prefix: str, best_apis: BestApis, chain_id: str, chain_name: str, codebase: Codebase, coingecko_id: str, daemon_name: str, decimals: int, denom: str, explorers: List[Explorer], fees: Optional[Fees], genesis: Genesis, height: int, image: str, key_algos: List[str], name: str, network_type: NetworkType, node_home: str, params: FluffyParams, path: str, peers: Peers, pretty_name: str, schema: str, slip44: int, status: PurpleStatus, symbol: str) -> None:
+    def __init__(self, apis: Apis, bech32_prefix: str, best_apis: BestApis, chain_id: str, chain_name: str, codebase: Codebase, coingecko_id: str, daemon_name: str, decimals: int, denom: str, explorers: List[Explorer], fees: Optional[Fees], genesis: Genesis, height: int, image: str, key_algos: List[str], logo_ur_is: Optional[LogoURIs], name: str, network_type: NetworkType, node_home: str, params: FluffyParams, path: str, peers: Peers, pretty_name: str, schema: str, slip44: int, status: PurpleStatus, symbol: str) -> None:
         self.apis = apis
         self.bech32_prefix = bech32_prefix
         self.best_apis = best_apis
@@ -645,6 +664,7 @@ class ChainDataChain:
         self.height = height
         self.image = image
         self.key_algos = key_algos
+        self.logo_ur_is = logo_ur_is
         self.name = name
         self.network_type = network_type
         self.node_home = node_home
@@ -676,6 +696,7 @@ class ChainDataChain:
         height = from_int(obj.get("height"))
         image = from_str(obj.get("image"))
         key_algos = from_list(from_str, obj.get("key_algos"))
+        logo_ur_is = from_union([LogoURIs.from_dict, from_none], obj.get("logo_URIs"))
         name = from_str(obj.get("name"))
         network_type = NetworkType(obj.get("network_type"))
         node_home = from_str(obj.get("node_home"))
@@ -687,7 +708,7 @@ class ChainDataChain:
         slip44 = from_int(obj.get("slip44"))
         status = PurpleStatus(obj.get("status"))
         symbol = from_str(obj.get("symbol"))
-        return ChainDataChain(apis, bech32_prefix, best_apis, chain_id, chain_name, codebase, coingecko_id, daemon_name, decimals, denom, explorers, fees, genesis, height, image, key_algos, name, network_type, node_home, params, path, peers, pretty_name, schema, slip44, status, symbol)
+        return ChainDataChain(apis, bech32_prefix, best_apis, chain_id, chain_name, codebase, coingecko_id, daemon_name, decimals, denom, explorers, fees, genesis, height, image, key_algos, logo_ur_is, name, network_type, node_home, params, path, peers, pretty_name, schema, slip44, status, symbol)
 
     def to_dict(self) -> dict:
         result: dict = {}
@@ -707,6 +728,7 @@ class ChainDataChain:
         result["height"] = from_int(self.height)
         result["image"] = from_str(self.image)
         result["key_algos"] = from_list(from_str, self.key_algos)
+        result["logo_URIs"] = from_union([lambda x: to_class(LogoURIs, x), from_none], self.logo_ur_is)
         result["name"] = from_str(self.name)
         result["network_type"] = to_enum(NetworkType, self.network_type)
         result["node_home"] = from_str(self.node_home)
