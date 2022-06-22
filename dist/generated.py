@@ -987,10 +987,10 @@ class Description:
 
 class RestakeClass:
     address: str
-    minimum_reward: int
+    minimum_reward: float
     run_time: Union[List[str], str]
 
-    def __init__(self, address: str, minimum_reward: int, run_time: Union[List[str], str]) -> None:
+    def __init__(self, address: str, minimum_reward: float, run_time: Union[List[str], str]) -> None:
         self.address = address
         self.minimum_reward = minimum_reward
         self.run_time = run_time
@@ -999,14 +999,14 @@ class RestakeClass:
     def from_dict(obj: Any) -> 'RestakeClass':
         assert isinstance(obj, dict)
         address = from_str(obj.get("address"))
-        minimum_reward = from_int(obj.get("minimum_reward"))
+        minimum_reward = from_float(obj.get("minimum_reward"))
         run_time = from_union([lambda x: from_list(from_str, x), from_str], obj.get("run_time"))
         return RestakeClass(address, minimum_reward, run_time)
 
     def to_dict(self) -> dict:
         result: dict = {}
         result["address"] = from_str(self.address)
-        result["minimum_reward"] = from_int(self.minimum_reward)
+        result["minimum_reward"] = to_float(self.minimum_reward)
         result["run_time"] = from_union([lambda x: from_list(from_str, x), from_str], self.run_time)
         return result
 

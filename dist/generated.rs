@@ -583,7 +583,7 @@ pub struct RestakeClass {
     address: String,
 
     #[serde(rename = "minimum_reward")]
-    minimum_reward: i64,
+    minimum_reward: f64,
 
     #[serde(rename = "run_time")]
     run_time: RunTime,

@@ -690,7 +690,7 @@ const typeMap: any = {
     ], false),
     "RestakeClass": o([
         { json: "address", js: "address", typ: "" },
-        { json: "minimum_reward", js: "minimum_reward", typ: 0 },
+        { json: "minimum_reward", js: "minimum_reward", typ: 3.14 },
         { json: "run_time", js: "run_time", typ: u(a(""), "") },
     ], false),
     "ChainValidatorsData": o([

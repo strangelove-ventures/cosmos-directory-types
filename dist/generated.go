@@ -322,7 +322,7 @@ type Description struct {
 
 type RestakeClass struct {
 	Address       string   `json:"address"`       
-	MinimumReward int64    `json:"minimum_reward"`
+	MinimumReward float64  `json:"minimum_reward"`
 	RunTime       *RunTime `json:"run_time"`      
 }
 
