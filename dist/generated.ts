@@ -52,7 +52,7 @@ export interface PurpleParams {
     actual_block_time?: number;
     authz?:             boolean;
     bonded_tokens?:     string;
-    calculated_apr?:    number | null;
+    calculated_apr?:    number;
     total_supply?:      string;
 }
 
@@ -503,7 +503,7 @@ const typeMap: any = {
         { json: "actual_block_time", js: "actual_block_time", typ: u(undefined, 3.14) },
         { json: "authz", js: "authz", typ: u(undefined, true) },
         { json: "bonded_tokens", js: "bonded_tokens", typ: u(undefined, "") },
-        { json: "calculated_apr", js: "calculated_apr", typ: u(undefined, u(3.14, null)) },
+        { json: "calculated_apr", js: "calculated_apr", typ: u(undefined, 3.14) },
         { json: "total_supply", js: "total_supply", typ: u(undefined, "") },
     ], false),
     "Repository": o([

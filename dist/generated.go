@@ -109,7 +109,7 @@ type PurpleParams struct {
 	ActualBlockTime *float64 `json:"actual_block_time,omitempty"`
 	Authz           *bool    `json:"authz,omitempty"`            
 	BondedTokens    *string  `json:"bonded_tokens,omitempty"`    
-	CalculatedAPR   *float64 `json:"calculated_apr"`             
+	CalculatedAPR   *float64 `json:"calculated_apr,omitempty"`   
 	TotalSupply     *string  `json:"total_supply,omitempty"`     
 }
 
