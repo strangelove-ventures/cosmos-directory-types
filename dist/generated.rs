@@ -526,7 +526,7 @@ pub struct ChainElement {
     unbonding_time: String,
 
     #[serde(rename = "uptime")]
-    uptime: Option<f64>,
+    uptime: f64,
 }
 
 #[derive(Serialize, Deserialize)]

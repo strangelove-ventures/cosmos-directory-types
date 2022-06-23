@@ -1041,9 +1041,9 @@ class ChainElement:
     tokens: str
     unbonding_height: int
     unbonding_time: datetime
-    uptime: Optional[float]
+    uptime: float
 
-    def __init__(self, address: str, commission: Commission, consensus_pubkey: ConsensusPubkey, delegator_shares: str, description: Description, hex_address: str, identity: Optional[str], jailed: bool, keybase_image: Optional[str], min_self_delegation: str, mintscan_image: Optional[str], missed_blocks: int, moniker: str, name: Optional[str], operator_address: str, path: Optional[str], profile: Optional[Profile], rank: int, restake: Optional[RestakeClass], status: ValidatorStatus, tokens: str, unbonding_height: int, unbonding_time: datetime, uptime: Optional[float]) -> None:
+    def __init__(self, address: str, commission: Commission, consensus_pubkey: ConsensusPubkey, delegator_shares: str, description: Description, hex_address: str, identity: Optional[str], jailed: bool, keybase_image: Optional[str], min_self_delegation: str, mintscan_image: Optional[str], missed_blocks: int, moniker: str, name: Optional[str], operator_address: str, path: Optional[str], profile: Optional[Profile], rank: int, restake: Optional[RestakeClass], status: ValidatorStatus, tokens: str, unbonding_height: int, unbonding_time: datetime, uptime: float) -> None:
         self.address = address
         self.commission = commission
         self.consensus_pubkey = consensus_pubkey
@@ -1095,7 +1095,7 @@ class ChainElement:
         tokens = from_str(obj.get("tokens"))
         unbonding_height = int(from_str(obj.get("unbonding_height")))
         unbonding_time = from_datetime(obj.get("unbonding_time"))
-        uptime = from_union([from_float, from_none], obj.get("uptime"))
+        uptime = from_float(obj.get("uptime"))
         return ChainElement(address, commission, consensus_pubkey, delegator_shares, description, hex_address, identity, jailed, keybase_image, min_self_delegation, mintscan_image, missed_blocks, moniker, name, operator_address, path, profile, rank, restake, status, tokens, unbonding_height, unbonding_time, uptime)
 
     def to_dict(self) -> dict:
@@ -1123,7 +1123,7 @@ class ChainElement:
         result["tokens"] = from_str(self.tokens)
         result["unbonding_height"] = from_str(str(self.unbonding_height))
         result["unbonding_time"] = self.unbonding_time.isoformat()
-        result["uptime"] = from_union([to_float, from_none], self.uptime)
+        result["uptime"] = to_float(self.uptime)
         return result
 
 
