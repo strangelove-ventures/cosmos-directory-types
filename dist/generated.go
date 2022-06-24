@@ -271,30 +271,30 @@ type ValidatorDataValidator struct {
 }
 
 type ChainElement struct {
-	Address           string          `json:"address"`                 
-	Commission        Commission      `json:"commission"`              
-	ConsensusPubkey   ConsensusPubkey `json:"consensus_pubkey"`        
-	DelegatorShares   string          `json:"delegator_shares"`        
-	Description       Description     `json:"description"`             
-	HexAddress        string          `json:"hexAddress"`              
-	Identity          *string         `json:"identity,omitempty"`      
-	Jailed            bool            `json:"jailed"`                  
-	KeybaseImage      *string         `json:"keybase_image,omitempty"` 
-	MinSelfDelegation string          `json:"min_self_delegation"`     
-	MintscanImage     *string         `json:"mintscan_image,omitempty"`
-	MissedBlocks      int64           `json:"missedBlocks"`            
-	Moniker           string          `json:"moniker"`                 
-	Name              *string         `json:"name,omitempty"`          
-	OperatorAddress   string          `json:"operator_address"`        
-	Path              *string         `json:"path,omitempty"`          
-	Profile           *Profile        `json:"profile,omitempty"`       
-	Rank              int64           `json:"rank"`                    
-	Restake           *RestakeClass   `json:"restake,omitempty"`       
-	Status            ValidatorStatus `json:"status"`                  
-	Tokens            string          `json:"tokens"`                  
-	UnbondingHeight   string          `json:"unbonding_height"`        
-	UnbondingTime     string          `json:"unbonding_time"`          
-	Uptime            float64         `json:"uptime"`                  
+	Address           string           `json:"address"`                      
+	Commission        *Commission      `json:"commission,omitempty"`         
+	ConsensusPubkey   *ConsensusPubkey `json:"consensus_pubkey,omitempty"`   
+	DelegatorShares   *string          `json:"delegator_shares,omitempty"`   
+	Description       *Description     `json:"description,omitempty"`        
+	HexAddress        *string          `json:"hexAddress,omitempty"`         
+	Identity          *string          `json:"identity,omitempty"`           
+	Jailed            *bool            `json:"jailed,omitempty"`             
+	KeybaseImage      *string          `json:"keybase_image,omitempty"`      
+	MinSelfDelegation *string          `json:"min_self_delegation,omitempty"`
+	MintscanImage     *string          `json:"mintscan_image,omitempty"`     
+	MissedBlocks      *int64           `json:"missedBlocks,omitempty"`       
+	Moniker           *string          `json:"moniker,omitempty"`            
+	Name              *string          `json:"name,omitempty"`               
+	OperatorAddress   *string          `json:"operator_address,omitempty"`   
+	Path              *string          `json:"path,omitempty"`               
+	Profile           *Profile         `json:"profile,omitempty"`            
+	Rank              *int64           `json:"rank,omitempty"`               
+	Restake           *RestakeClass    `json:"restake,omitempty"`            
+	Status            *ValidatorStatus `json:"status,omitempty"`             
+	Tokens            *string          `json:"tokens,omitempty"`             
+	UnbondingHeight   *string          `json:"unbonding_height,omitempty"`   
+	UnbondingTime     *string          `json:"unbonding_time,omitempty"`     
+	Uptime            *float64         `json:"uptime,omitempty"`             
 }
 
 type Commission struct {

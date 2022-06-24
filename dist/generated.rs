@@ -463,46 +463,46 @@ pub struct ChainElement {
     address: String,
 
     #[serde(rename = "commission")]
-    commission: Commission,
+    commission: Option<Commission>,
 
     #[serde(rename = "consensus_pubkey")]
-    consensus_pubkey: ConsensusPubkey,
+    consensus_pubkey: Option<ConsensusPubkey>,
 
     #[serde(rename = "delegator_shares")]
-    delegator_shares: String,
+    delegator_shares: Option<String>,
 
     #[serde(rename = "description")]
-    description: Description,
+    description: Option<Description>,
 
     #[serde(rename = "hexAddress")]
-    hex_address: String,
+    hex_address: Option<String>,
 
     #[serde(rename = "identity")]
     identity: Option<String>,
 
     #[serde(rename = "jailed")]
-    jailed: bool,
+    jailed: Option<bool>,
 
     #[serde(rename = "keybase_image")]
     keybase_image: Option<String>,
 
     #[serde(rename = "min_self_delegation")]
-    min_self_delegation: String,
+    min_self_delegation: Option<String>,
 
     #[serde(rename = "mintscan_image")]
     mintscan_image: Option<String>,
 
     #[serde(rename = "missedBlocks")]
-    missed_blocks: i64,
+    missed_blocks: Option<i64>,
 
     #[serde(rename = "moniker")]
-    moniker: String,
+    moniker: Option<String>,
 
     #[serde(rename = "name")]
     name: Option<String>,
 
     #[serde(rename = "operator_address")]
-    operator_address: String,
+    operator_address: Option<String>,
 
     #[serde(rename = "path")]
     path: Option<String>,
@@ -511,25 +511,25 @@ pub struct ChainElement {
     profile: Option<Profile>,
 
     #[serde(rename = "rank")]
-    rank: i64,
+    rank: Option<i64>,
 
     #[serde(rename = "restake")]
     restake: Option<RestakeClass>,
 
     #[serde(rename = "status")]
-    status: ValidatorStatus,
+    status: Option<ValidatorStatus>,
 
     #[serde(rename = "tokens")]
-    tokens: String,
+    tokens: Option<String>,
 
     #[serde(rename = "unbonding_height")]
-    unbonding_height: String,
+    unbonding_height: Option<String>,
 
     #[serde(rename = "unbonding_time")]
-    unbonding_time: String,
+    unbonding_time: Option<String>,
 
     #[serde(rename = "uptime")]
-    uptime: f64,
+    uptime: Option<f64>,
 }
 
 #[derive(Serialize, Deserialize)]

@@ -223,30 +223,30 @@ export interface ValidatorDataValidator {
 }
 
 export interface ChainElement {
-    address:             string;
-    commission:          Commission;
-    consensus_pubkey:    ConsensusPubkey;
-    delegator_shares:    string;
-    description:         Description;
-    hexAddress:          string;
-    identity?:           string;
-    jailed:              boolean;
-    keybase_image?:      string;
-    min_self_delegation: string;
-    mintscan_image?:     string;
-    missedBlocks:        number;
-    moniker:             string;
-    name?:               string;
-    operator_address:    string;
-    path?:               string;
-    profile?:            Profile;
-    rank:                number;
-    restake?:            RestakeClass;
-    status:              ValidatorStatus;
-    tokens:              string;
-    unbonding_height:    string;
-    unbonding_time:      Date;
-    uptime:              number;
+    address:              string;
+    commission?:          Commission;
+    consensus_pubkey?:    ConsensusPubkey;
+    delegator_shares?:    string;
+    description?:         Description;
+    hexAddress?:          string;
+    identity?:            string;
+    jailed?:              boolean;
+    keybase_image?:       string;
+    min_self_delegation?: string;
+    mintscan_image?:      string;
+    missedBlocks?:        number;
+    moniker?:             string;
+    name?:                string;
+    operator_address?:    string;
+    path?:                string;
+    profile?:             Profile;
+    rank?:                number;
+    restake?:             RestakeClass;
+    status?:              ValidatorStatus;
+    tokens?:              string;
+    unbonding_height?:    string;
+    unbonding_time?:      Date;
+    uptime?:              number;
 }
 
 export interface Commission {
@@ -646,29 +646,29 @@ const typeMap: any = {
     ], false),
     "ChainElement": o([
         { json: "address", js: "address", typ: "" },
-        { json: "commission", js: "commission", typ: r("Commission") },
-        { json: "consensus_pubkey", js: "consensus_pubkey", typ: r("ConsensusPubkey") },
-        { json: "delegator_shares", js: "delegator_shares", typ: "" },
-        { json: "description", js: "description", typ: r("Description") },
-        { json: "hexAddress", js: "hexAddress", typ: "" },
+        { json: "commission", js: "commission", typ: u(undefined, r("Commission")) },
+        { json: "consensus_pubkey", js: "consensus_pubkey", typ: u(undefined, r("ConsensusPubkey")) },
+        { json: "delegator_shares", js: "delegator_shares", typ: u(undefined, "") },
+        { json: "description", js: "description", typ: u(undefined, r("Description")) },
+        { json: "hexAddress", js: "hexAddress", typ: u(undefined, "") },
         { json: "identity", js: "identity", typ: u(undefined, "") },
-        { json: "jailed", js: "jailed", typ: true },
+        { json: "jailed", js: "jailed", typ: u(undefined, true) },
         { json: "keybase_image", js: "keybase_image", typ: u(undefined, "") },
-        { json: "min_self_delegation", js: "min_self_delegation", typ: "" },
+        { json: "min_self_delegation", js: "min_self_delegation", typ: u(undefined, "") },
         { json: "mintscan_image", js: "mintscan_image", typ: u(undefined, "") },
-        { json: "missedBlocks", js: "missedBlocks", typ: 0 },
-        { json: "moniker", js: "moniker", typ: "" },
+        { json: "missedBlocks", js: "missedBlocks", typ: u(undefined, 0) },
+        { json: "moniker", js: "moniker", typ: u(undefined, "") },
         { json: "name", js: "name", typ: u(undefined, "") },
-        { json: "operator_address", js: "operator_address", typ: "" },
+        { json: "operator_address", js: "operator_address", typ: u(undefined, "") },
         { json: "path", js: "path", typ: u(undefined, "") },
         { json: "profile", js: "profile", typ: u(undefined, r("Profile")) },
-        { json: "rank", js: "rank", typ: 0 },
+        { json: "rank", js: "rank", typ: u(undefined, 0) },
         { json: "restake", js: "restake", typ: u(undefined, r("RestakeClass")) },
-        { json: "status", js: "status", typ: r("ValidatorStatus") },
-        { json: "tokens", js: "tokens", typ: "" },
-        { json: "unbonding_height", js: "unbonding_height", typ: "" },
-        { json: "unbonding_time", js: "unbonding_time", typ: Date },
-        { json: "uptime", js: "uptime", typ: 3.14 },
+        { json: "status", js: "status", typ: u(undefined, r("ValidatorStatus")) },
+        { json: "tokens", js: "tokens", typ: u(undefined, "") },
+        { json: "unbonding_height", js: "unbonding_height", typ: u(undefined, "") },
+        { json: "unbonding_time", js: "unbonding_time", typ: u(undefined, Date) },
+        { json: "uptime", js: "uptime", typ: u(undefined, 3.14) },
     ], false),
     "Commission": o([
         { json: "commission_rates", js: "commission_rates", typ: r("CommissionRates") },

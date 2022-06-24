@@ -82,6 +82,11 @@ def from_datetime(x: Any) -> datetime:
     return dateutil.parser.parse(x)
 
 
+def is_type(t: Type[T], x: Any) -> T:
+    assert isinstance(x, t)
+    return x
+
+
 class Grpc:
     address: str
     provider: Optional[str]
@@ -1023,31 +1028,31 @@ class ValidatorStatus(Enum):
 
 class ChainElement:
     address: str
-    commission: Commission
-    consensus_pubkey: ConsensusPubkey
-    delegator_shares: str
-    description: Description
-    hex_address: str
+    commission: Optional[Commission]
+    consensus_pubkey: Optional[ConsensusPubkey]
+    delegator_shares: Optional[str]
+    description: Optional[Description]
+    hex_address: Optional[str]
     identity: Optional[str]
-    jailed: bool
+    jailed: Optional[bool]
     keybase_image: Optional[str]
-    min_self_delegation: str
+    min_self_delegation: Optional[str]
     mintscan_image: Optional[str]
-    missed_blocks: int
-    moniker: str
+    missed_blocks: Optional[int]
+    moniker: Optional[str]
     name: Optional[str]
-    operator_address: str
+    operator_address: Optional[str]
     path: Optional[str]
     profile: Optional[Profile]
-    rank: int
+    rank: Optional[int]
     restake: Optional[RestakeClass]
-    status: ValidatorStatus
-    tokens: str
-    unbonding_height: int
-    unbonding_time: datetime
-    uptime: float
+    status: Optional[ValidatorStatus]
+    tokens: Optional[str]
+    unbonding_height: Optional[int]
+    unbonding_time: Optional[datetime]
+    uptime: Optional[float]
 
-    def __init__(self, address: str, commission: Commission, consensus_pubkey: ConsensusPubkey, delegator_shares: str, description: Description, hex_address: str, identity: Optional[str], jailed: bool, keybase_image: Optional[str], min_self_delegation: str, mintscan_image: Optional[str], missed_blocks: int, moniker: str, name: Optional[str], operator_address: str, path: Optional[str], profile: Optional[Profile], rank: int, restake: Optional[RestakeClass], status: ValidatorStatus, tokens: str, unbonding_height: int, unbonding_time: datetime, uptime: float) -> None:
+    def __init__(self, address: str, commission: Optional[Commission], consensus_pubkey: Optional[ConsensusPubkey], delegator_shares: Optional[str], description: Optional[Description], hex_address: Optional[str], identity: Optional[str], jailed: Optional[bool], keybase_image: Optional[str], min_self_delegation: Optional[str], mintscan_image: Optional[str], missed_blocks: Optional[int], moniker: Optional[str], name: Optional[str], operator_address: Optional[str], path: Optional[str], profile: Optional[Profile], rank: Optional[int], restake: Optional[RestakeClass], status: Optional[ValidatorStatus], tokens: Optional[str], unbonding_height: Optional[int], unbonding_time: Optional[datetime], uptime: Optional[float]) -> None:
         self.address = address
         self.commission = commission
         self.consensus_pubkey = consensus_pubkey
@@ -1077,57 +1082,57 @@ class ChainElement:
     def from_dict(obj: Any) -> 'ChainElement':
         assert isinstance(obj, dict)
         address = from_str(obj.get("address"))
-        commission = Commission.from_dict(obj.get("commission"))
-        consensus_pubkey = ConsensusPubkey.from_dict(obj.get("consensus_pubkey"))
-        delegator_shares = from_str(obj.get("delegator_shares"))
-        description = Description.from_dict(obj.get("description"))
-        hex_address = from_str(obj.get("hexAddress"))
+        commission = from_union([Commission.from_dict, from_none], obj.get("commission"))
+        consensus_pubkey = from_union([ConsensusPubkey.from_dict, from_none], obj.get("consensus_pubkey"))
+        delegator_shares = from_union([from_none, from_str], obj.get("delegator_shares"))
+        description = from_union([Description.from_dict, from_none], obj.get("description"))
+        hex_address = from_union([from_none, from_str], obj.get("hexAddress"))
         identity = from_union([from_none, from_str], obj.get("identity"))
-        jailed = from_bool(obj.get("jailed"))
+        jailed = from_union([from_bool, from_none], obj.get("jailed"))
         keybase_image = from_union([from_none, from_str], obj.get("keybase_image"))
-        min_self_delegation = from_str(obj.get("min_self_delegation"))
+        min_self_delegation = from_union([from_none, from_str], obj.get("min_self_delegation"))
         mintscan_image = from_union([from_none, from_str], obj.get("mintscan_image"))
-        missed_blocks = from_int(obj.get("missedBlocks"))
-        moniker = from_str(obj.get("moniker"))
+        missed_blocks = from_union([from_int, from_none], obj.get("missedBlocks"))
+        moniker = from_union([from_none, from_str], obj.get("moniker"))
         name = from_union([from_none, from_str], obj.get("name"))
-        operator_address = from_str(obj.get("operator_address"))
+        operator_address = from_union([from_none, from_str], obj.get("operator_address"))
         path = from_union([from_none, from_str], obj.get("path"))
         profile = from_union([Profile.from_dict, from_none], obj.get("profile"))
-        rank = from_int(obj.get("rank"))
+        rank = from_union([from_int, from_none], obj.get("rank"))
         restake = from_union([RestakeClass.from_dict, from_none], obj.get("restake"))
-        status = ValidatorStatus(obj.get("status"))
-        tokens = from_str(obj.get("tokens"))
-        unbonding_height = int(from_str(obj.get("unbonding_height")))
-        unbonding_time = from_datetime(obj.get("unbonding_time"))
-        uptime = from_float(obj.get("uptime"))
+        status = from_union([ValidatorStatus, from_none], obj.get("status"))
+        tokens = from_union([from_none, from_str], obj.get("tokens"))
+        unbonding_height = from_union([from_none, lambda x: int(from_str(x))], obj.get("unbonding_height"))
+        unbonding_time = from_union([from_datetime, from_none], obj.get("unbonding_time"))
+        uptime = from_union([from_float, from_none], obj.get("uptime"))
         return ChainElement(address, commission, consensus_pubkey, delegator_shares, description, hex_address, identity, jailed, keybase_image, min_self_delegation, mintscan_image, missed_blocks, moniker, name, operator_address, path, profile, rank, restake, status, tokens, unbonding_height, unbonding_time, uptime)
 
     def to_dict(self) -> dict:
         result: dict = {}
         result["address"] = from_str(self.address)
-        result["commission"] = to_class(Commission, self.commission)
-        result["consensus_pubkey"] = to_class(ConsensusPubkey, self.consensus_pubkey)
-        result["delegator_shares"] = from_str(self.delegator_shares)
-        result["description"] = to_class(Description, self.description)
-        result["hexAddress"] = from_str(self.hex_address)
+        result["commission"] = from_union([lambda x: to_class(Commission, x), from_none], self.commission)
+        result["consensus_pubkey"] = from_union([lambda x: to_class(ConsensusPubkey, x), from_none], self.consensus_pubkey)
+        result["delegator_shares"] = from_union([from_none, from_str], self.delegator_shares)
+        result["description"] = from_union([lambda x: to_class(Description, x), from_none], self.description)
+        result["hexAddress"] = from_union([from_none, from_str], self.hex_address)
         result["identity"] = from_union([from_none, from_str], self.identity)
-        result["jailed"] = from_bool(self.jailed)
+        result["jailed"] = from_union([from_bool, from_none], self.jailed)
         result["keybase_image"] = from_union([from_none, from_str], self.keybase_image)
-        result["min_self_delegation"] = from_str(self.min_self_delegation)
+        result["min_self_delegation"] = from_union([from_none, from_str], self.min_self_delegation)
         result["mintscan_image"] = from_union([from_none, from_str], self.mintscan_image)
-        result["missedBlocks"] = from_int(self.missed_blocks)
-        result["moniker"] = from_str(self.moniker)
+        result["missedBlocks"] = from_union([from_int, from_none], self.missed_blocks)
+        result["moniker"] = from_union([from_none, from_str], self.moniker)
         result["name"] = from_union([from_none, from_str], self.name)
-        result["operator_address"] = from_str(self.operator_address)
+        result["operator_address"] = from_union([from_none, from_str], self.operator_address)
         result["path"] = from_union([from_none, from_str], self.path)
         result["profile"] = from_union([lambda x: to_class(Profile, x), from_none], self.profile)
-        result["rank"] = from_int(self.rank)
+        result["rank"] = from_union([from_int, from_none], self.rank)
         result["restake"] = from_union([lambda x: to_class(RestakeClass, x), from_none], self.restake)
-        result["status"] = to_enum(ValidatorStatus, self.status)
-        result["tokens"] = from_str(self.tokens)
-        result["unbonding_height"] = from_str(str(self.unbonding_height))
-        result["unbonding_time"] = self.unbonding_time.isoformat()
-        result["uptime"] = to_float(self.uptime)
+        result["status"] = from_union([lambda x: to_enum(ValidatorStatus, x), from_none], self.status)
+        result["tokens"] = from_union([from_none, from_str], self.tokens)
+        result["unbonding_height"] = from_union([lambda x: from_none((lambda x: is_type(type(None), x))(x)), lambda x: from_str((lambda x: str((lambda x: is_type(int, x))(x)))(x))], self.unbonding_height)
+        result["unbonding_time"] = from_union([lambda x: x.isoformat(), from_none], self.unbonding_time)
+        result["uptime"] = from_union([to_float, from_none], self.uptime)
         return result
 
 
