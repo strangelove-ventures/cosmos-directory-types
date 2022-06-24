@@ -215,6 +215,9 @@ pub struct ChainDataChain {
 
     #[serde(rename = "symbol")]
     symbol: String,
+
+    #[serde(rename = "updatelink")]
+    updatelink: Option<String>,
 }
 
 #[derive(Serialize, Deserialize)]

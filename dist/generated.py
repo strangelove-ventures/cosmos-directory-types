@@ -646,8 +646,9 @@ class ChainDataChain:
     slip44: int
     status: PurpleStatus
     symbol: str
+    updatelink: Optional[str]
 
-    def __init__(self, apis: Apis, bech32_prefix: str, best_apis: BestApis, chain_id: str, chain_name: str, codebase: Codebase, coingecko_id: str, daemon_name: str, decimals: int, denom: str, explorers: List[Explorer], fees: Optional[Fees], genesis: Genesis, height: int, image: str, key_algos: List[str], logo_ur_is: Optional[LogoURIs], name: str, network_type: NetworkType, node_home: str, params: FluffyParams, path: str, peers: Peers, pretty_name: str, schema: str, slip44: int, status: PurpleStatus, symbol: str) -> None:
+    def __init__(self, apis: Apis, bech32_prefix: str, best_apis: BestApis, chain_id: str, chain_name: str, codebase: Codebase, coingecko_id: str, daemon_name: str, decimals: int, denom: str, explorers: List[Explorer], fees: Optional[Fees], genesis: Genesis, height: int, image: str, key_algos: List[str], logo_ur_is: Optional[LogoURIs], name: str, network_type: NetworkType, node_home: str, params: FluffyParams, path: str, peers: Peers, pretty_name: str, schema: str, slip44: int, status: PurpleStatus, symbol: str, updatelink: Optional[str]) -> None:
         self.apis = apis
         self.bech32_prefix = bech32_prefix
         self.best_apis = best_apis
@@ -676,6 +677,7 @@ class ChainDataChain:
         self.slip44 = slip44
         self.status = status
         self.symbol = symbol
+        self.updatelink = updatelink
 
     @staticmethod
     def from_dict(obj: Any) -> 'ChainDataChain':
@@ -708,7 +710,8 @@ class ChainDataChain:
         slip44 = from_int(obj.get("slip44"))
         status = PurpleStatus(obj.get("status"))
         symbol = from_str(obj.get("symbol"))
-        return ChainDataChain(apis, bech32_prefix, best_apis, chain_id, chain_name, codebase, coingecko_id, daemon_name, decimals, denom, explorers, fees, genesis, height, image, key_algos, logo_ur_is, name, network_type, node_home, params, path, peers, pretty_name, schema, slip44, status, symbol)
+        updatelink = from_union([from_none, from_str], obj.get("updatelink"))
+        return ChainDataChain(apis, bech32_prefix, best_apis, chain_id, chain_name, codebase, coingecko_id, daemon_name, decimals, denom, explorers, fees, genesis, height, image, key_algos, logo_ur_is, name, network_type, node_home, params, path, peers, pretty_name, schema, slip44, status, symbol, updatelink)
 
     def to_dict(self) -> dict:
         result: dict = {}
@@ -740,6 +743,7 @@ class ChainDataChain:
         result["slip44"] = from_int(self.slip44)
         result["status"] = to_enum(PurpleStatus, self.status)
         result["symbol"] = from_str(self.symbol)
+        result["updatelink"] = from_union([from_none, from_str], self.updatelink)
         return result
 
 

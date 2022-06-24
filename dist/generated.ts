@@ -102,6 +102,7 @@ export interface ChainDataChain {
     slip44:        number;
     status:        PurpleStatus;
     symbol:        string;
+    updatelink?:   string;
 }
 
 export interface Apis {
@@ -545,6 +546,7 @@ const typeMap: any = {
         { json: "slip44", js: "slip44", typ: 0 },
         { json: "status", js: "status", typ: r("PurpleStatus") },
         { json: "symbol", js: "symbol", typ: "" },
+        { json: "updatelink", js: "updatelink", typ: u(undefined, "") },
     ], false),
     "Apis": o([
         { json: "grpc", js: "grpc", typ: a(r("Grpc")) },
