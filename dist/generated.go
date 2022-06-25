@@ -109,7 +109,7 @@ type PurpleParams struct {
 	ActualBlockTime *float64 `json:"actual_block_time,omitempty"`
 	Authz           *bool    `json:"authz,omitempty"`            
 	BondedTokens    *string  `json:"bonded_tokens,omitempty"`    
-	CalculatedAPR   *float64 `json:"calculated_apr,omitempty"`   
+	CalculatedAPR   *float64 `json:"calculated_apr"`             
 	TotalSupply     *string  `json:"total_supply,omitempty"`     
 }
 
@@ -189,8 +189,11 @@ type Fees struct {
 }
 
 type FeeToken struct {
-	Denom            string `json:"denom"`              
-	FixedMinGasPrice int64  `json:"fixed_min_gas_price"`
+	AverageGasPrice  *float64 `json:"average_gas_price,omitempty"`
+	Denom            string   `json:"denom"`                      
+	FixedMinGasPrice int64    `json:"fixed_min_gas_price"`        
+	HighGasPrice     *float64 `json:"high_gas_price,omitempty"`   
+	LowGasPrice      *int64   `json:"low_gas_price,omitempty"`    
 }
 
 type Genesis struct {

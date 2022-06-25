@@ -52,7 +52,7 @@ export interface PurpleParams {
     actual_block_time?: number;
     authz?:             boolean;
     bonded_tokens?:     string;
-    calculated_apr?:    number;
+    calculated_apr?:    number | null;
     total_supply?:      string;
 }
 
@@ -137,8 +137,11 @@ export interface Fees {
 }
 
 export interface FeeToken {
+    average_gas_price?:  number;
     denom:               string;
     fixed_min_gas_price: number;
+    high_gas_price?:     number;
+    low_gas_price?:      number;
 }
 
 export interface Genesis {
@@ -504,7 +507,7 @@ const typeMap: any = {
         { json: "actual_block_time", js: "actual_block_time", typ: u(undefined, 3.14) },
         { json: "authz", js: "authz", typ: u(undefined, true) },
         { json: "bonded_tokens", js: "bonded_tokens", typ: u(undefined, "") },
-        { json: "calculated_apr", js: "calculated_apr", typ: u(undefined, 3.14) },
+        { json: "calculated_apr", js: "calculated_apr", typ: u(undefined, u(3.14, null)) },
         { json: "total_supply", js: "total_supply", typ: u(undefined, "") },
     ], false),
     "Repository": o([
@@ -575,8 +578,11 @@ const typeMap: any = {
         { json: "fee_tokens", js: "fee_tokens", typ: a(r("FeeToken")) },
     ], false),
     "FeeToken": o([
+        { json: "average_gas_price", js: "average_gas_price", typ: u(undefined, 3.14) },
         { json: "denom", js: "denom", typ: "" },
         { json: "fixed_min_gas_price", js: "fixed_min_gas_price", typ: 0 },
+        { json: "high_gas_price", js: "high_gas_price", typ: u(undefined, 3.14) },
+        { json: "low_gas_price", js: "low_gas_price", typ: u(undefined, 0) },
     ], false),
     "Genesis": o([
         { json: "genesis_url", js: "genesis_url", typ: "" },

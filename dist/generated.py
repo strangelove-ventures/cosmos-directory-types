@@ -417,24 +417,36 @@ class Explorer:
 
 
 class FeeToken:
+    average_gas_price: Optional[float]
     denom: str
     fixed_min_gas_price: int
+    high_gas_price: Optional[float]
+    low_gas_price: Optional[int]
 
-    def __init__(self, denom: str, fixed_min_gas_price: int) -> None:
+    def __init__(self, average_gas_price: Optional[float], denom: str, fixed_min_gas_price: int, high_gas_price: Optional[float], low_gas_price: Optional[int]) -> None:
+        self.average_gas_price = average_gas_price
         self.denom = denom
         self.fixed_min_gas_price = fixed_min_gas_price
+        self.high_gas_price = high_gas_price
+        self.low_gas_price = low_gas_price
 
     @staticmethod
     def from_dict(obj: Any) -> 'FeeToken':
         assert isinstance(obj, dict)
+        average_gas_price = from_union([from_float, from_none], obj.get("average_gas_price"))
         denom = from_str(obj.get("denom"))
         fixed_min_gas_price = from_int(obj.get("fixed_min_gas_price"))
-        return FeeToken(denom, fixed_min_gas_price)
+        high_gas_price = from_union([from_float, from_none], obj.get("high_gas_price"))
+        low_gas_price = from_union([from_int, from_none], obj.get("low_gas_price"))
+        return FeeToken(average_gas_price, denom, fixed_min_gas_price, high_gas_price, low_gas_price)
 
     def to_dict(self) -> dict:
         result: dict = {}
+        result["average_gas_price"] = from_union([to_float, from_none], self.average_gas_price)
         result["denom"] = from_str(self.denom)
         result["fixed_min_gas_price"] = from_int(self.fixed_min_gas_price)
+        result["high_gas_price"] = from_union([to_float, from_none], self.high_gas_price)
+        result["low_gas_price"] = from_union([from_int, from_none], self.low_gas_price)
         return result
 
 

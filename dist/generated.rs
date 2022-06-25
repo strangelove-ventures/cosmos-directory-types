@@ -285,11 +285,20 @@ pub struct Fees {
 
 #[derive(Serialize, Deserialize)]
 pub struct FeeToken {
+    #[serde(rename = "average_gas_price")]
+    average_gas_price: Option<f64>,
+
     #[serde(rename = "denom")]
     denom: String,
 
     #[serde(rename = "fixed_min_gas_price")]
     fixed_min_gas_price: i64,
+
+    #[serde(rename = "high_gas_price")]
+    high_gas_price: Option<f64>,
+
+    #[serde(rename = "low_gas_price")]
+    low_gas_price: Option<i64>,
 }
 
 #[derive(Serialize, Deserialize)]
