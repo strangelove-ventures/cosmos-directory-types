@@ -321,6 +321,9 @@ pub struct FluffyParams {
     #[serde(rename = "actual_blocks_per_year")]
     actual_blocks_per_year: f64,
 
+    #[serde(rename = "annual_provision")]
+    annual_provision: String,
+
     #[serde(rename = "authz")]
     authz: bool,
 
@@ -343,13 +346,13 @@ pub struct FluffyParams {
     calculated_apr: f64,
 
     #[serde(rename = "community_tax")]
-    community_tax: Option<f64>,
+    community_tax: f64,
 
     #[serde(rename = "epoch_duration")]
     epoch_duration: Option<i64>,
 
     #[serde(rename = "estimated_apr")]
-    estimated_apr: Option<f64>,
+    estimated_apr: f64,
 
     #[serde(rename = "max_validators")]
     max_validators: i64,

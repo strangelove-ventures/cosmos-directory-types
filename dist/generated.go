@@ -207,6 +207,7 @@ type LogoURIs struct {
 type FluffyParams struct {
 	ActualBlockTime       float64  `json:"actual_block_time"`                
 	ActualBlocksPerYear   float64  `json:"actual_blocks_per_year"`           
+	AnnualProvision       string   `json:"annual_provision"`                 
 	Authz                 bool     `json:"authz"`                            
 	BaseInflation         float64  `json:"base_inflation"`                   
 	BlockTime             *float64 `json:"block_time,omitempty"`             
@@ -214,9 +215,9 @@ type FluffyParams struct {
 	BondedRatio           float64  `json:"bonded_ratio"`                     
 	BondedTokens          string   `json:"bonded_tokens"`                    
 	CalculatedAPR         float64  `json:"calculated_apr"`                   
-	CommunityTax          *float64 `json:"community_tax,omitempty"`          
+	CommunityTax          float64  `json:"community_tax"`                    
 	EpochDuration         *int64   `json:"epoch_duration,omitempty"`         
-	EstimatedAPR          *float64 `json:"estimated_apr,omitempty"`          
+	EstimatedAPR          float64  `json:"estimated_apr"`                    
 	MaxValidators         int64    `json:"max_validators"`                   
 	MintingEpochProvision *float64 `json:"minting_epoch_provision,omitempty"`
 	TotalSupply           string   `json:"total_supply"`                     

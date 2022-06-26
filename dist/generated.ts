@@ -155,6 +155,7 @@ export interface LogoURIs {
 export interface FluffyParams {
     actual_block_time:        number;
     actual_blocks_per_year:   number;
+    annual_provision:         string;
     authz:                    boolean;
     base_inflation:           number;
     block_time?:              number;
@@ -162,9 +163,9 @@ export interface FluffyParams {
     bonded_ratio:             number;
     bonded_tokens:            string;
     calculated_apr:           number;
-    community_tax?:           number;
+    community_tax:            number;
     epoch_duration?:          number;
-    estimated_apr?:           number;
+    estimated_apr:            number;
     max_validators:           number;
     minting_epoch_provision?: number;
     total_supply:             string;
@@ -593,6 +594,7 @@ const typeMap: any = {
     "FluffyParams": o([
         { json: "actual_block_time", js: "actual_block_time", typ: 3.14 },
         { json: "actual_blocks_per_year", js: "actual_blocks_per_year", typ: 3.14 },
+        { json: "annual_provision", js: "annual_provision", typ: "" },
         { json: "authz", js: "authz", typ: true },
         { json: "base_inflation", js: "base_inflation", typ: 3.14 },
         { json: "block_time", js: "block_time", typ: u(undefined, 3.14) },
@@ -600,9 +602,9 @@ const typeMap: any = {
         { json: "bonded_ratio", js: "bonded_ratio", typ: 3.14 },
         { json: "bonded_tokens", js: "bonded_tokens", typ: "" },
         { json: "calculated_apr", js: "calculated_apr", typ: 3.14 },
-        { json: "community_tax", js: "community_tax", typ: u(undefined, 3.14) },
+        { json: "community_tax", js: "community_tax", typ: 3.14 },
         { json: "epoch_duration", js: "epoch_duration", typ: u(undefined, 0) },
-        { json: "estimated_apr", js: "estimated_apr", typ: u(undefined, 3.14) },
+        { json: "estimated_apr", js: "estimated_apr", typ: 3.14 },
         { json: "max_validators", js: "max_validators", typ: 0 },
         { json: "minting_epoch_provision", js: "minting_epoch_provision", typ: u(undefined, 3.14) },
         { json: "total_supply", js: "total_supply", typ: "" },

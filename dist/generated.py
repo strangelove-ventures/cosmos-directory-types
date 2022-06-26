@@ -507,6 +507,7 @@ class LogoURIs:
 class FluffyParams:
     actual_block_time: float
     actual_blocks_per_year: float
+    annual_provision: str
     authz: bool
     base_inflation: float
     block_time: Optional[float]
@@ -514,18 +515,19 @@ class FluffyParams:
     bonded_ratio: float
     bonded_tokens: str
     calculated_apr: float
-    community_tax: Optional[float]
+    community_tax: float
     epoch_duration: Optional[int]
-    estimated_apr: Optional[float]
+    estimated_apr: float
     max_validators: int
     minting_epoch_provision: Optional[float]
     total_supply: str
     unbonding_time: int
     year_minting_provision: Optional[int]
 
-    def __init__(self, actual_block_time: float, actual_blocks_per_year: float, authz: bool, base_inflation: float, block_time: Optional[float], blocks_per_year: Optional[int], bonded_ratio: float, bonded_tokens: str, calculated_apr: float, community_tax: Optional[float], epoch_duration: Optional[int], estimated_apr: Optional[float], max_validators: int, minting_epoch_provision: Optional[float], total_supply: str, unbonding_time: int, year_minting_provision: Optional[int]) -> None:
+    def __init__(self, actual_block_time: float, actual_blocks_per_year: float, annual_provision: str, authz: bool, base_inflation: float, block_time: Optional[float], blocks_per_year: Optional[int], bonded_ratio: float, bonded_tokens: str, calculated_apr: float, community_tax: float, epoch_duration: Optional[int], estimated_apr: float, max_validators: int, minting_epoch_provision: Optional[float], total_supply: str, unbonding_time: int, year_minting_provision: Optional[int]) -> None:
         self.actual_block_time = actual_block_time
         self.actual_blocks_per_year = actual_blocks_per_year
+        self.annual_provision = annual_provision
         self.authz = authz
         self.base_inflation = base_inflation
         self.block_time = block_time
@@ -547,6 +549,7 @@ class FluffyParams:
         assert isinstance(obj, dict)
         actual_block_time = from_float(obj.get("actual_block_time"))
         actual_blocks_per_year = from_float(obj.get("actual_blocks_per_year"))
+        annual_provision = from_str(obj.get("annual_provision"))
         authz = from_bool(obj.get("authz"))
         base_inflation = from_float(obj.get("base_inflation"))
         block_time = from_union([from_float, from_none], obj.get("block_time"))
@@ -554,20 +557,21 @@ class FluffyParams:
         bonded_ratio = from_float(obj.get("bonded_ratio"))
         bonded_tokens = from_str(obj.get("bonded_tokens"))
         calculated_apr = from_float(obj.get("calculated_apr"))
-        community_tax = from_union([from_float, from_none], obj.get("community_tax"))
+        community_tax = from_float(obj.get("community_tax"))
         epoch_duration = from_union([from_int, from_none], obj.get("epoch_duration"))
-        estimated_apr = from_union([from_float, from_none], obj.get("estimated_apr"))
+        estimated_apr = from_float(obj.get("estimated_apr"))
         max_validators = from_int(obj.get("max_validators"))
         minting_epoch_provision = from_union([from_float, from_none], obj.get("minting_epoch_provision"))
         total_supply = from_str(obj.get("total_supply"))
         unbonding_time = from_int(obj.get("unbonding_time"))
         year_minting_provision = from_union([from_int, from_none], obj.get("year_minting_provision"))
-        return FluffyParams(actual_block_time, actual_blocks_per_year, authz, base_inflation, block_time, blocks_per_year, bonded_ratio, bonded_tokens, calculated_apr, community_tax, epoch_duration, estimated_apr, max_validators, minting_epoch_provision, total_supply, unbonding_time, year_minting_provision)
+        return FluffyParams(actual_block_time, actual_blocks_per_year, annual_provision, authz, base_inflation, block_time, blocks_per_year, bonded_ratio, bonded_tokens, calculated_apr, community_tax, epoch_duration, estimated_apr, max_validators, minting_epoch_provision, total_supply, unbonding_time, year_minting_provision)
 
     def to_dict(self) -> dict:
         result: dict = {}
         result["actual_block_time"] = to_float(self.actual_block_time)
         result["actual_blocks_per_year"] = to_float(self.actual_blocks_per_year)
+        result["annual_provision"] = from_str(self.annual_provision)
         result["authz"] = from_bool(self.authz)
         result["base_inflation"] = to_float(self.base_inflation)
         result["block_time"] = from_union([to_float, from_none], self.block_time)
@@ -575,9 +579,9 @@ class FluffyParams:
         result["bonded_ratio"] = to_float(self.bonded_ratio)
         result["bonded_tokens"] = from_str(self.bonded_tokens)
         result["calculated_apr"] = to_float(self.calculated_apr)
-        result["community_tax"] = from_union([to_float, from_none], self.community_tax)
+        result["community_tax"] = to_float(self.community_tax)
         result["epoch_duration"] = from_union([from_int, from_none], self.epoch_duration)
-        result["estimated_apr"] = from_union([to_float, from_none], self.estimated_apr)
+        result["estimated_apr"] = to_float(self.estimated_apr)
         result["max_validators"] = from_int(self.max_validators)
         result["minting_epoch_provision"] = from_union([to_float, from_none], self.minting_epoch_provision)
         result["total_supply"] = from_str(self.total_supply)
