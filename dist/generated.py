@@ -820,29 +820,41 @@ class Schema(Enum):
     PROFILE_SCHEMA_JSON = "../profile.schema.json"
 
 
-class Profile:
+class ChainProfile:
+    apps: Optional[List[str]]
     identity: str
     name: str
     schema: Optional[Schema]
+    twitter: Optional[str]
+    website: Optional[str]
 
-    def __init__(self, identity: str, name: str, schema: Optional[Schema]) -> None:
+    def __init__(self, apps: Optional[List[str]], identity: str, name: str, schema: Optional[Schema], twitter: Optional[str], website: Optional[str]) -> None:
+        self.apps = apps
         self.identity = identity
         self.name = name
         self.schema = schema
+        self.twitter = twitter
+        self.website = website
 
     @staticmethod
-    def from_dict(obj: Any) -> 'Profile':
+    def from_dict(obj: Any) -> 'ChainProfile':
         assert isinstance(obj, dict)
+        apps = from_union([lambda x: from_list(from_str, x), from_none], obj.get("apps"))
         identity = from_str(obj.get("identity"))
         name = from_str(obj.get("name"))
         schema = from_union([Schema, from_none], obj.get("$schema"))
-        return Profile(identity, name, schema)
+        twitter = from_union([from_none, from_str], obj.get("twitter"))
+        website = from_union([from_none, from_str], obj.get("website"))
+        return ChainProfile(apps, identity, name, schema, twitter, website)
 
     def to_dict(self) -> dict:
         result: dict = {}
+        result["apps"] = from_union([lambda x: from_list(from_str, x), from_none], self.apps)
         result["identity"] = from_str(self.identity)
         result["name"] = from_str(self.name)
         result["$schema"] = from_union([lambda x: to_enum(Schema, x), from_none], self.schema)
+        result["twitter"] = from_union([from_none, from_str], self.twitter)
+        result["website"] = from_union([from_none, from_str], self.website)
         return result
 
 
@@ -851,9 +863,9 @@ class AllValidatorsDataValidator:
     identity: str
     name: str
     path: str
-    profile: Profile
+    profile: ChainProfile
 
-    def __init__(self, chains: List[ValidatorChain], identity: str, name: str, path: str, profile: Profile) -> None:
+    def __init__(self, chains: List[ValidatorChain], identity: str, name: str, path: str, profile: ChainProfile) -> None:
         self.chains = chains
         self.identity = identity
         self.name = name
@@ -867,7 +879,7 @@ class AllValidatorsDataValidator:
         identity = from_str(obj.get("identity"))
         name = from_str(obj.get("name"))
         path = from_str(obj.get("path"))
-        profile = Profile.from_dict(obj.get("profile"))
+        profile = ChainProfile.from_dict(obj.get("profile"))
         return AllValidatorsDataValidator(chains, identity, name, path, profile)
 
     def to_dict(self) -> dict:
@@ -876,7 +888,7 @@ class AllValidatorsDataValidator:
         result["identity"] = from_str(self.identity)
         result["name"] = from_str(self.name)
         result["path"] = from_str(self.path)
-        result["profile"] = to_class(Profile, self.profile)
+        result["profile"] = to_class(ChainProfile, self.profile)
         return result
 
 
@@ -1059,7 +1071,7 @@ class ChainElement:
     name: Optional[str]
     operator_address: Optional[str]
     path: Optional[str]
-    profile: Optional[Profile]
+    profile: Optional[ChainProfile]
     rank: Optional[int]
     restake: Optional[RestakeClass]
     status: Optional[ValidatorStatus]
@@ -1068,7 +1080,7 @@ class ChainElement:
     unbonding_time: Optional[datetime]
     uptime: Optional[float]
 
-    def __init__(self, address: str, commission: Optional[Commission], consensus_pubkey: Optional[ConsensusPubkey], delegator_shares: Optional[str], description: Optional[Description], hex_address: Optional[str], identity: Optional[str], jailed: Optional[bool], keybase_image: Optional[str], min_self_delegation: Optional[str], mintscan_image: Optional[str], missed_blocks: Optional[int], moniker: Optional[str], name: Optional[str], operator_address: Optional[str], path: Optional[str], profile: Optional[Profile], rank: Optional[int], restake: Optional[RestakeClass], status: Optional[ValidatorStatus], tokens: Optional[str], unbonding_height: Optional[int], unbonding_time: Optional[datetime], uptime: Optional[float]) -> None:
+    def __init__(self, address: str, commission: Optional[Commission], consensus_pubkey: Optional[ConsensusPubkey], delegator_shares: Optional[str], description: Optional[Description], hex_address: Optional[str], identity: Optional[str], jailed: Optional[bool], keybase_image: Optional[str], min_self_delegation: Optional[str], mintscan_image: Optional[str], missed_blocks: Optional[int], moniker: Optional[str], name: Optional[str], operator_address: Optional[str], path: Optional[str], profile: Optional[ChainProfile], rank: Optional[int], restake: Optional[RestakeClass], status: Optional[ValidatorStatus], tokens: Optional[str], unbonding_height: Optional[int], unbonding_time: Optional[datetime], uptime: Optional[float]) -> None:
         self.address = address
         self.commission = commission
         self.consensus_pubkey = consensus_pubkey
@@ -1113,7 +1125,7 @@ class ChainElement:
         name = from_union([from_none, from_str], obj.get("name"))
         operator_address = from_union([from_none, from_str], obj.get("operator_address"))
         path = from_union([from_none, from_str], obj.get("path"))
-        profile = from_union([Profile.from_dict, from_none], obj.get("profile"))
+        profile = from_union([ChainProfile.from_dict, from_none], obj.get("profile"))
         rank = from_union([from_int, from_none], obj.get("rank"))
         restake = from_union([RestakeClass.from_dict, from_none], obj.get("restake"))
         status = from_union([ValidatorStatus, from_none], obj.get("status"))
@@ -1141,7 +1153,7 @@ class ChainElement:
         result["name"] = from_union([from_none, from_str], self.name)
         result["operator_address"] = from_union([from_none, from_str], self.operator_address)
         result["path"] = from_union([from_none, from_str], self.path)
-        result["profile"] = from_union([lambda x: to_class(Profile, x), from_none], self.profile)
+        result["profile"] = from_union([lambda x: to_class(ChainProfile, x), from_none], self.profile)
         result["rank"] = from_union([from_int, from_none], self.rank)
         result["restake"] = from_union([lambda x: to_class(RestakeClass, x), from_none], self.restake)
         result["status"] = from_union([lambda x: to_enum(ValidatorStatus, x), from_none], self.status)
@@ -1152,14 +1164,40 @@ class ChainElement:
         return result
 
 
+class PurpleProfile:
+    identity: str
+    name: str
+    schema: Schema
+
+    def __init__(self, identity: str, name: str, schema: Schema) -> None:
+        self.identity = identity
+        self.name = name
+        self.schema = schema
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'PurpleProfile':
+        assert isinstance(obj, dict)
+        identity = from_str(obj.get("identity"))
+        name = from_str(obj.get("name"))
+        schema = Schema(obj.get("$schema"))
+        return PurpleProfile(identity, name, schema)
+
+    def to_dict(self) -> dict:
+        result: dict = {}
+        result["identity"] = from_str(self.identity)
+        result["name"] = from_str(self.name)
+        result["$schema"] = to_enum(Schema, self.schema)
+        return result
+
+
 class ValidatorDataValidator:
     chains: List[ChainElement]
     identity: str
     name: str
     path: str
-    profile: Profile
+    profile: PurpleProfile
 
-    def __init__(self, chains: List[ChainElement], identity: str, name: str, path: str, profile: Profile) -> None:
+    def __init__(self, chains: List[ChainElement], identity: str, name: str, path: str, profile: PurpleProfile) -> None:
         self.chains = chains
         self.identity = identity
         self.name = name
@@ -1173,7 +1211,7 @@ class ValidatorDataValidator:
         identity = from_str(obj.get("identity"))
         name = from_str(obj.get("name"))
         path = from_str(obj.get("path"))
-        profile = Profile.from_dict(obj.get("profile"))
+        profile = PurpleProfile.from_dict(obj.get("profile"))
         return ValidatorDataValidator(chains, identity, name, path, profile)
 
     def to_dict(self) -> dict:
@@ -1182,7 +1220,7 @@ class ValidatorDataValidator:
         result["identity"] = from_str(self.identity)
         result["name"] = from_str(self.name)
         result["path"] = from_str(self.path)
-        result["profile"] = to_class(Profile, self.profile)
+        result["profile"] = to_class(PurpleProfile, self.profile)
         return result
 
 

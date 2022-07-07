@@ -415,7 +415,7 @@ pub struct AllValidatorsDataValidator {
     path: String,
 
     #[serde(rename = "profile")]
-    profile: Profile,
+    profile: ChainProfile,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -431,7 +431,10 @@ pub struct ValidatorChain {
 }
 
 #[derive(Serialize, Deserialize)]
-pub struct Profile {
+pub struct ChainProfile {
+    #[serde(rename = "apps")]
+    apps: Option<Vec<String>>,
+
     #[serde(rename = "identity")]
     identity: String,
 
@@ -440,6 +443,12 @@ pub struct Profile {
 
     #[serde(rename = "$schema")]
     schema: Option<Schema>,
+
+    #[serde(rename = "twitter")]
+    twitter: Option<String>,
+
+    #[serde(rename = "website")]
+    website: Option<String>,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -466,7 +475,7 @@ pub struct ValidatorDataValidator {
     path: String,
 
     #[serde(rename = "profile")]
-    profile: Profile,
+    profile: PurpleProfile,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -520,7 +529,7 @@ pub struct ChainElement {
     path: Option<String>,
 
     #[serde(rename = "profile")]
-    profile: Option<Profile>,
+    profile: Option<ChainProfile>,
 
     #[serde(rename = "rank")]
     rank: Option<i64>,
@@ -602,6 +611,18 @@ pub struct RestakeClass {
 
     #[serde(rename = "run_time")]
     run_time: RunTime,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct PurpleProfile {
+    #[serde(rename = "identity")]
+    identity: String,
+
+    #[serde(rename = "name")]
+    name: String,
+
+    #[serde(rename = "$schema")]
+    schema: Schema,
 }
 
 #[derive(Serialize, Deserialize)]

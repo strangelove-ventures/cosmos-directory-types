@@ -194,7 +194,7 @@ export interface AllValidatorsDataValidator {
     identity: string;
     name:     string;
     path:     string;
-    profile:  Profile;
+    profile:  ChainProfile;
 }
 
 export interface ValidatorChain {
@@ -203,10 +203,13 @@ export interface ValidatorChain {
     restake: boolean | string;
 }
 
-export interface Profile {
+export interface ChainProfile {
     $schema?: Schema;
+    apps?:    string[];
     identity: string;
     name:     string;
+    twitter?: string;
+    website?: string;
 }
 
 export enum Schema {
@@ -223,7 +226,7 @@ export interface ValidatorDataValidator {
     identity: string;
     name:     string;
     path:     string;
-    profile:  Profile;
+    profile:  PurpleProfile;
 }
 
 export interface ChainElement {
@@ -243,7 +246,7 @@ export interface ChainElement {
     name?:                string;
     operator_address?:    string;
     path?:                string;
-    profile?:             Profile;
+    profile?:             ChainProfile;
     rank?:                number;
     restake?:             RestakeClass;
     status?:              ValidatorStatus;
@@ -291,6 +294,12 @@ export enum ValidatorStatus {
     BondStatusBonded = "BOND_STATUS_BONDED",
     BondStatusUnbonded = "BOND_STATUS_UNBONDED",
     BondStatusUnbonding = "BOND_STATUS_UNBONDING",
+}
+
+export interface PurpleProfile {
+    $schema:  Schema;
+    identity: string;
+    name:     string;
 }
 
 export interface ChainValidatorsData {
@@ -629,17 +638,20 @@ const typeMap: any = {
         { json: "identity", js: "identity", typ: "" },
         { json: "name", js: "name", typ: "" },
         { json: "path", js: "path", typ: "" },
-        { json: "profile", js: "profile", typ: r("Profile") },
+        { json: "profile", js: "profile", typ: r("ChainProfile") },
     ], false),
     "ValidatorChain": o([
         { json: "address", js: "address", typ: "" },
         { json: "name", js: "name", typ: "" },
         { json: "restake", js: "restake", typ: u(true, "") },
     ], false),
-    "Profile": o([
+    "ChainProfile": o([
         { json: "$schema", js: "$schema", typ: u(undefined, r("Schema")) },
+        { json: "apps", js: "apps", typ: u(undefined, a("")) },
         { json: "identity", js: "identity", typ: "" },
         { json: "name", js: "name", typ: "" },
+        { json: "twitter", js: "twitter", typ: u(undefined, "") },
+        { json: "website", js: "website", typ: u(undefined, "") },
     ], false),
     "ValidatorData": o([
         { json: "repository", js: "repository", typ: r("Repository") },
@@ -650,7 +662,7 @@ const typeMap: any = {
         { json: "identity", js: "identity", typ: "" },
         { json: "name", js: "name", typ: "" },
         { json: "path", js: "path", typ: "" },
-        { json: "profile", js: "profile", typ: r("Profile") },
+        { json: "profile", js: "profile", typ: r("PurpleProfile") },
     ], false),
     "ChainElement": o([
         { json: "address", js: "address", typ: "" },
@@ -669,7 +681,7 @@ const typeMap: any = {
         { json: "name", js: "name", typ: u(undefined, "") },
         { json: "operator_address", js: "operator_address", typ: u(undefined, "") },
         { json: "path", js: "path", typ: u(undefined, "") },
-        { json: "profile", js: "profile", typ: u(undefined, r("Profile")) },
+        { json: "profile", js: "profile", typ: u(undefined, r("ChainProfile")) },
         { json: "rank", js: "rank", typ: u(undefined, 0) },
         { json: "restake", js: "restake", typ: u(undefined, r("RestakeClass")) },
         { json: "status", js: "status", typ: u(undefined, r("ValidatorStatus")) },
@@ -702,6 +714,11 @@ const typeMap: any = {
         { json: "address", js: "address", typ: "" },
         { json: "minimum_reward", js: "minimum_reward", typ: 3.14 },
         { json: "run_time", js: "run_time", typ: u(a(""), "") },
+    ], false),
+    "PurpleProfile": o([
+        { json: "$schema", js: "$schema", typ: r("Schema") },
+        { json: "identity", js: "identity", typ: "" },
+        { json: "name", js: "name", typ: "" },
     ], false),
     "ChainValidatorsData": o([
         { json: "name", js: "name", typ: "" },

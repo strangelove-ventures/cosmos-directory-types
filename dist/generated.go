@@ -246,7 +246,7 @@ type AllValidatorsDataValidator struct {
 	Identity string           `json:"identity"`
 	Name     string           `json:"name"`    
 	Path     string           `json:"path"`    
-	Profile  Profile          `json:"profile"` 
+	Profile  ChainProfile     `json:"profile"` 
 }
 
 type ValidatorChain struct {
@@ -255,10 +255,13 @@ type ValidatorChain struct {
 	Restake *RestakeUnion `json:"restake"`
 }
 
-type Profile struct {
-	Identity string  `json:"identity"`         
-	Name     string  `json:"name"`             
-	Schema   *Schema `json:"$schema,omitempty"`
+type ChainProfile struct {
+	Apps     []string `json:"apps,omitempty"`   
+	Identity string   `json:"identity"`         
+	Name     string   `json:"name"`             
+	Schema   *Schema  `json:"$schema,omitempty"`
+	Twitter  *string  `json:"twitter,omitempty"`
+	Website  *string  `json:"website,omitempty"`
 }
 
 type ValidatorData struct {
@@ -271,7 +274,7 @@ type ValidatorDataValidator struct {
 	Identity string         `json:"identity"`
 	Name     string         `json:"name"`    
 	Path     string         `json:"path"`    
-	Profile  Profile        `json:"profile"` 
+	Profile  PurpleProfile  `json:"profile"` 
 }
 
 type ChainElement struct {
@@ -291,7 +294,7 @@ type ChainElement struct {
 	Name              *string          `json:"name,omitempty"`               
 	OperatorAddress   *string          `json:"operator_address,omitempty"`   
 	Path              *string          `json:"path,omitempty"`               
-	Profile           *Profile         `json:"profile,omitempty"`            
+	Profile           *ChainProfile    `json:"profile,omitempty"`            
 	Rank              *int64           `json:"rank,omitempty"`               
 	Restake           *RestakeClass    `json:"restake,omitempty"`            
 	Status            *ValidatorStatus `json:"status,omitempty"`             
@@ -329,6 +332,12 @@ type RestakeClass struct {
 	Address       string   `json:"address"`       
 	MinimumReward float64  `json:"minimum_reward"`
 	RunTime       *RunTime `json:"run_time"`      
+}
+
+type PurpleProfile struct {
+	Identity string `json:"identity"`
+	Name     string `json:"name"`    
+	Schema   Schema `json:"$schema"` 
 }
 
 type ChainValidatorsData struct {
