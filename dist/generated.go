@@ -301,7 +301,7 @@ type ChainElement struct {
 	Tokens            *string          `json:"tokens,omitempty"`             
 	UnbondingHeight   *string          `json:"unbonding_height,omitempty"`   
 	UnbondingTime     *string          `json:"unbonding_time,omitempty"`     
-	Uptime            *float64         `json:"uptime"`                       
+	Uptime            *float64         `json:"uptime,omitempty"`             
 }
 
 type Commission struct {

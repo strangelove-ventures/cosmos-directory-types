@@ -253,7 +253,7 @@ export interface ChainElement {
     tokens?:              string;
     unbonding_height?:    string;
     unbonding_time?:      Date;
-    uptime?:              number | null;
+    uptime?:              number;
 }
 
 export interface Commission {
@@ -688,7 +688,7 @@ const typeMap: any = {
         { json: "tokens", js: "tokens", typ: u(undefined, "") },
         { json: "unbonding_height", js: "unbonding_height", typ: u(undefined, "") },
         { json: "unbonding_time", js: "unbonding_time", typ: u(undefined, Date) },
-        { json: "uptime", js: "uptime", typ: u(undefined, u(3.14, null)) },
+        { json: "uptime", js: "uptime", typ: u(undefined, 3.14) },
     ], false),
     "Commission": o([
         { json: "commission_rates", js: "commission_rates", typ: r("CommissionRates") },
