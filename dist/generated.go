@@ -352,7 +352,6 @@ const (
 
 type PurpleStatus string
 const (
-	Killed PurpleStatus = "killed"
 	Live PurpleStatus = "live"
 )
 

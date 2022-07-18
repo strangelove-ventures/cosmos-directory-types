@@ -170,7 +170,6 @@ class PurpleParams:
 
 
 class PurpleStatus(Enum):
-    KILLED = "killed"
     LIVE = "live"
 
 

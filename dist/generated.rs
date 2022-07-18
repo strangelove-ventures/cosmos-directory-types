@@ -658,9 +658,6 @@ pub enum NetworkType {
 
 #[derive(Serialize, Deserialize)]
 pub enum PurpleStatus {
-    #[serde(rename = "killed")]
-    Killed,
-
     #[serde(rename = "live")]
     Live,
 }

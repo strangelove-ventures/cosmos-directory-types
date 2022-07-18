@@ -57,7 +57,6 @@ export interface PurpleParams {
 }
 
 export enum PurpleStatus {
-    Killed = "killed",
     Live = "live",
 }
 
@@ -728,7 +727,6 @@ const typeMap: any = {
         "mainnet",
     ],
     "PurpleStatus": [
-        "killed",
         "live",
     ],
     "Schema": [
