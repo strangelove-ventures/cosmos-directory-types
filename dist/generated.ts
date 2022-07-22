@@ -113,8 +113,10 @@ export interface Apis {
 export interface Codebase {
     binaries?:           Binaries;
     compatible_versions: string[];
+    cosmos_sdk_version?: string;
     git_repo:            string;
     recommended_version: string;
+    tendermint_version?: string;
 }
 
 export interface Binaries {
@@ -568,8 +570,10 @@ const typeMap: any = {
     "Codebase": o([
         { json: "binaries", js: "binaries", typ: u(undefined, r("Binaries")) },
         { json: "compatible_versions", js: "compatible_versions", typ: a("") },
+        { json: "cosmos_sdk_version", js: "cosmos_sdk_version", typ: u(undefined, "") },
         { json: "git_repo", js: "git_repo", typ: "" },
         { json: "recommended_version", js: "recommended_version", typ: "" },
+        { json: "tendermint_version", js: "tendermint_version", typ: u(undefined, "") },
     ], false),
     "Binaries": o([
         { json: "darwin/amd64", js: "darwin/amd64", typ: u(undefined, "") },
