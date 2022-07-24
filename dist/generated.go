@@ -167,6 +167,8 @@ type Codebase struct {
 	Binaries           *Binaries `json:"binaries,omitempty"`          
 	CompatibleVersions []string  `json:"compatible_versions"`         
 	CosmosSDKVersion   *string   `json:"cosmos_sdk_version,omitempty"`
+	CosmwasmEnabled    *bool     `json:"cosmwasm_enabled,omitempty"`  
+	CosmwasmVersion    *string   `json:"cosmwasm_version,omitempty"`  
 	GitRepo            string    `json:"git_repo"`                    
 	RecommendedVersion string    `json:"recommended_version"`         
 	TendermintVersion  *string   `json:"tendermint_version,omitempty"`

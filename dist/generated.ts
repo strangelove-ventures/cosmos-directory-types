@@ -114,6 +114,8 @@ export interface Codebase {
     binaries?:           Binaries;
     compatible_versions: string[];
     cosmos_sdk_version?: string;
+    cosmwasm_enabled?:   boolean;
+    cosmwasm_version?:   string;
     git_repo:            string;
     recommended_version: string;
     tendermint_version?: string;
@@ -571,6 +573,8 @@ const typeMap: any = {
         { json: "binaries", js: "binaries", typ: u(undefined, r("Binaries")) },
         { json: "compatible_versions", js: "compatible_versions", typ: a("") },
         { json: "cosmos_sdk_version", js: "cosmos_sdk_version", typ: u(undefined, "") },
+        { json: "cosmwasm_enabled", js: "cosmwasm_enabled", typ: u(undefined, true) },
+        { json: "cosmwasm_version", js: "cosmwasm_version", typ: u(undefined, "") },
         { json: "git_repo", js: "git_repo", typ: "" },
         { json: "recommended_version", js: "recommended_version", typ: "" },
         { json: "tendermint_version", js: "tendermint_version", typ: u(undefined, "") },
