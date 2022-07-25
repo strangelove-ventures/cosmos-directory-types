@@ -167,13 +167,69 @@ export interface FluffyParams {
     bonded_tokens:            string;
     calculated_apr:           number;
     community_tax:            number;
+    distribution:             Distribution;
     epoch_duration?:          number;
     estimated_apr:            number;
     max_validators:           number;
+    mint:                     Mint;
     minting_epoch_provision?: number;
+    slashing:                 Slashing;
+    staking:                  Staking;
     total_supply:             string;
     unbonding_time:           number;
     year_minting_provision?:  number;
+}
+
+export interface Distribution {
+    base_proposer_reward:  string;
+    bonus_proposer_reward: string;
+    community_tax:         string;
+    withdraw_addr_enabled: boolean;
+}
+
+export interface Mint {
+    blocks_per_year?:                          string;
+    distribution_proportions?:                 DistributionProportions;
+    epoch_identifier?:                         string;
+    genesis_epoch_provisions?:                 string;
+    goal_bonded?:                              string;
+    inflation_max?:                            string;
+    inflation_min?:                            string;
+    inflation_rate_change?:                    string;
+    mint_denom:                                string;
+    minting_rewards_distribution_start_epoch?: string;
+    reduction_factor?:                         string;
+    reduction_period_in_epochs?:               string;
+    weighted_developer_rewards_receivers?:     WeightedDeveloperRewardsReceiver[];
+}
+
+export interface DistributionProportions {
+    community_pool:    string;
+    developer_rewards: string;
+    pool_incentives:   string;
+    staking:           string;
+}
+
+export interface WeightedDeveloperRewardsReceiver {
+    address: string;
+    weight:  string;
+}
+
+export interface Slashing {
+    downtime_jail_duration:     string;
+    min_signed_per_window:      string;
+    signed_blocks_window:       string;
+    slash_fraction_double_sign: string;
+    slash_fraction_downtime:    string;
+}
+
+export interface Staking {
+    bond_denom:           string;
+    historical_entries:   number;
+    max_entries:          number;
+    max_validators:       number;
+    min_commission_rate?: string;
+    unbonding_time:       string;
 }
 
 export interface Peers {
@@ -233,30 +289,35 @@ export interface ValidatorDataValidator {
 }
 
 export interface ChainElement {
-    address:              string;
-    commission?:          Commission;
-    consensus_pubkey?:    ConsensusPubkey;
-    delegator_shares?:    string;
-    description?:         Description;
-    hexAddress?:          string;
-    identity?:            string;
-    jailed?:              boolean;
-    keybase_image?:       string;
-    min_self_delegation?: string;
-    mintscan_image?:      string;
-    missedBlocks?:        number;
-    moniker?:             string;
-    name?:                string;
-    operator_address?:    string;
-    path?:                string;
-    profile?:             ChainProfile;
-    rank?:                number;
-    restake?:             RestakeClass;
-    status?:              ValidatorStatus;
-    tokens?:              string;
-    unbonding_height?:    string;
-    unbonding_time?:      Date;
-    uptime?:              number;
+    address:                string;
+    commission?:            Commission;
+    consensus_pubkey?:      ConsensusPubkey;
+    delegator_shares?:      string;
+    description?:           Description;
+    hex_address?:           string;
+    identity?:              string;
+    jailed?:                boolean;
+    keybase_image?:         string;
+    min_self_delegation?:   string;
+    mintscan_image?:        string;
+    missed_blocks?:         number;
+    missed_blocks_periods?: MissedBlocksPeriod[];
+    moniker?:               string;
+    name?:                  string;
+    operator_address?:      string;
+    path?:                  string;
+    profile?:               ChainProfile;
+    rank?:                  number;
+    restake?:               RestakeClass;
+    services?:              Services;
+    signing_info?:          SigningInfo;
+    slashes?:               Slash[];
+    status?:                ValidatorStatus;
+    tokens?:                string;
+    unbonding_height?:      string;
+    unbonding_time?:        Date;
+    uptime?:                number;
+    uptime_periods?:        UptimePeriod[];
 }
 
 export interface Commission {
@@ -287,16 +348,50 @@ export interface Description {
     website:          string;
 }
 
+export interface MissedBlocksPeriod {
+    blocks: number;
+    missed: number;
+}
+
 export interface RestakeClass {
     address:        string;
     minimum_reward: number;
     run_time:       string[] | string;
 }
 
+export interface Services {
+    staking_rewards: StakingRewards;
+}
+
+export interface StakingRewards {
+    name:     string;
+    slug:     string;
+    verified: boolean;
+}
+
+export interface SigningInfo {
+    address:               string;
+    index_offset:          string;
+    jailed_until:          Date;
+    missed_blocks_counter: string;
+    start_height:          string;
+    tombstoned:            boolean;
+}
+
+export interface Slash {
+    fraction:         string;
+    validator_period: string;
+}
+
 export enum ValidatorStatus {
     BondStatusBonded = "BOND_STATUS_BONDED",
     BondStatusUnbonded = "BOND_STATUS_UNBONDED",
     BondStatusUnbonding = "BOND_STATUS_UNBONDING",
+}
+
+export interface UptimePeriod {
+    blocks: number;
+    uptime: number;
 }
 
 export interface PurpleProfile {
@@ -619,13 +714,63 @@ const typeMap: any = {
         { json: "bonded_tokens", js: "bonded_tokens", typ: "" },
         { json: "calculated_apr", js: "calculated_apr", typ: 3.14 },
         { json: "community_tax", js: "community_tax", typ: 3.14 },
+        { json: "distribution", js: "distribution", typ: r("Distribution") },
         { json: "epoch_duration", js: "epoch_duration", typ: u(undefined, 0) },
         { json: "estimated_apr", js: "estimated_apr", typ: 3.14 },
         { json: "max_validators", js: "max_validators", typ: 0 },
+        { json: "mint", js: "mint", typ: r("Mint") },
         { json: "minting_epoch_provision", js: "minting_epoch_provision", typ: u(undefined, 3.14) },
+        { json: "slashing", js: "slashing", typ: r("Slashing") },
+        { json: "staking", js: "staking", typ: r("Staking") },
         { json: "total_supply", js: "total_supply", typ: "" },
         { json: "unbonding_time", js: "unbonding_time", typ: 0 },
         { json: "year_minting_provision", js: "year_minting_provision", typ: u(undefined, 0) },
+    ], false),
+    "Distribution": o([
+        { json: "base_proposer_reward", js: "base_proposer_reward", typ: "" },
+        { json: "bonus_proposer_reward", js: "bonus_proposer_reward", typ: "" },
+        { json: "community_tax", js: "community_tax", typ: "" },
+        { json: "withdraw_addr_enabled", js: "withdraw_addr_enabled", typ: true },
+    ], false),
+    "Mint": o([
+        { json: "blocks_per_year", js: "blocks_per_year", typ: u(undefined, "") },
+        { json: "distribution_proportions", js: "distribution_proportions", typ: u(undefined, r("DistributionProportions")) },
+        { json: "epoch_identifier", js: "epoch_identifier", typ: u(undefined, "") },
+        { json: "genesis_epoch_provisions", js: "genesis_epoch_provisions", typ: u(undefined, "") },
+        { json: "goal_bonded", js: "goal_bonded", typ: u(undefined, "") },
+        { json: "inflation_max", js: "inflation_max", typ: u(undefined, "") },
+        { json: "inflation_min", js: "inflation_min", typ: u(undefined, "") },
+        { json: "inflation_rate_change", js: "inflation_rate_change", typ: u(undefined, "") },
+        { json: "mint_denom", js: "mint_denom", typ: "" },
+        { json: "minting_rewards_distribution_start_epoch", js: "minting_rewards_distribution_start_epoch", typ: u(undefined, "") },
+        { json: "reduction_factor", js: "reduction_factor", typ: u(undefined, "") },
+        { json: "reduction_period_in_epochs", js: "reduction_period_in_epochs", typ: u(undefined, "") },
+        { json: "weighted_developer_rewards_receivers", js: "weighted_developer_rewards_receivers", typ: u(undefined, a(r("WeightedDeveloperRewardsReceiver"))) },
+    ], false),
+    "DistributionProportions": o([
+        { json: "community_pool", js: "community_pool", typ: "" },
+        { json: "developer_rewards", js: "developer_rewards", typ: "" },
+        { json: "pool_incentives", js: "pool_incentives", typ: "" },
+        { json: "staking", js: "staking", typ: "" },
+    ], false),
+    "WeightedDeveloperRewardsReceiver": o([
+        { json: "address", js: "address", typ: "" },
+        { json: "weight", js: "weight", typ: "" },
+    ], false),
+    "Slashing": o([
+        { json: "downtime_jail_duration", js: "downtime_jail_duration", typ: "" },
+        { json: "min_signed_per_window", js: "min_signed_per_window", typ: "" },
+        { json: "signed_blocks_window", js: "signed_blocks_window", typ: "" },
+        { json: "slash_fraction_double_sign", js: "slash_fraction_double_sign", typ: "" },
+        { json: "slash_fraction_downtime", js: "slash_fraction_downtime", typ: "" },
+    ], false),
+    "Staking": o([
+        { json: "bond_denom", js: "bond_denom", typ: "" },
+        { json: "historical_entries", js: "historical_entries", typ: 0 },
+        { json: "max_entries", js: "max_entries", typ: 0 },
+        { json: "max_validators", js: "max_validators", typ: 0 },
+        { json: "min_commission_rate", js: "min_commission_rate", typ: u(undefined, "") },
+        { json: "unbonding_time", js: "unbonding_time", typ: "" },
     ], false),
     "Peers": o([
         { json: "persistent_peers", js: "persistent_peers", typ: a(r("PersistentPeer")) },
@@ -677,13 +822,14 @@ const typeMap: any = {
         { json: "consensus_pubkey", js: "consensus_pubkey", typ: u(undefined, r("ConsensusPubkey")) },
         { json: "delegator_shares", js: "delegator_shares", typ: u(undefined, "") },
         { json: "description", js: "description", typ: u(undefined, r("Description")) },
-        { json: "hexAddress", js: "hexAddress", typ: u(undefined, "") },
+        { json: "hex_address", js: "hex_address", typ: u(undefined, "") },
         { json: "identity", js: "identity", typ: u(undefined, "") },
         { json: "jailed", js: "jailed", typ: u(undefined, true) },
         { json: "keybase_image", js: "keybase_image", typ: u(undefined, "") },
         { json: "min_self_delegation", js: "min_self_delegation", typ: u(undefined, "") },
         { json: "mintscan_image", js: "mintscan_image", typ: u(undefined, "") },
-        { json: "missedBlocks", js: "missedBlocks", typ: u(undefined, 0) },
+        { json: "missed_blocks", js: "missed_blocks", typ: u(undefined, 0) },
+        { json: "missed_blocks_periods", js: "missed_blocks_periods", typ: u(undefined, a(r("MissedBlocksPeriod"))) },
         { json: "moniker", js: "moniker", typ: u(undefined, "") },
         { json: "name", js: "name", typ: u(undefined, "") },
         { json: "operator_address", js: "operator_address", typ: u(undefined, "") },
@@ -691,11 +837,15 @@ const typeMap: any = {
         { json: "profile", js: "profile", typ: u(undefined, r("ChainProfile")) },
         { json: "rank", js: "rank", typ: u(undefined, 0) },
         { json: "restake", js: "restake", typ: u(undefined, r("RestakeClass")) },
+        { json: "services", js: "services", typ: u(undefined, r("Services")) },
+        { json: "signing_info", js: "signing_info", typ: u(undefined, r("SigningInfo")) },
+        { json: "slashes", js: "slashes", typ: u(undefined, a(r("Slash"))) },
         { json: "status", js: "status", typ: u(undefined, r("ValidatorStatus")) },
         { json: "tokens", js: "tokens", typ: u(undefined, "") },
         { json: "unbonding_height", js: "unbonding_height", typ: u(undefined, "") },
         { json: "unbonding_time", js: "unbonding_time", typ: u(undefined, Date) },
         { json: "uptime", js: "uptime", typ: u(undefined, 3.14) },
+        { json: "uptime_periods", js: "uptime_periods", typ: u(undefined, a(r("UptimePeriod"))) },
     ], false),
     "Commission": o([
         { json: "commission_rates", js: "commission_rates", typ: r("CommissionRates") },
@@ -717,10 +867,38 @@ const typeMap: any = {
         { json: "security_contact", js: "security_contact", typ: "" },
         { json: "website", js: "website", typ: "" },
     ], false),
+    "MissedBlocksPeriod": o([
+        { json: "blocks", js: "blocks", typ: 0 },
+        { json: "missed", js: "missed", typ: 0 },
+    ], false),
     "RestakeClass": o([
         { json: "address", js: "address", typ: "" },
         { json: "minimum_reward", js: "minimum_reward", typ: 3.14 },
         { json: "run_time", js: "run_time", typ: u(a(""), "") },
+    ], false),
+    "Services": o([
+        { json: "staking_rewards", js: "staking_rewards", typ: r("StakingRewards") },
+    ], false),
+    "StakingRewards": o([
+        { json: "name", js: "name", typ: "" },
+        { json: "slug", js: "slug", typ: "" },
+        { json: "verified", js: "verified", typ: true },
+    ], false),
+    "SigningInfo": o([
+        { json: "address", js: "address", typ: "" },
+        { json: "index_offset", js: "index_offset", typ: "" },
+        { json: "jailed_until", js: "jailed_until", typ: Date },
+        { json: "missed_blocks_counter", js: "missed_blocks_counter", typ: "" },
+        { json: "start_height", js: "start_height", typ: "" },
+        { json: "tombstoned", js: "tombstoned", typ: true },
+    ], false),
+    "Slash": o([
+        { json: "fraction", js: "fraction", typ: "" },
+        { json: "validator_period", js: "validator_period", typ: "" },
+    ], false),
+    "UptimePeriod": o([
+        { json: "blocks", js: "blocks", typ: 0 },
+        { json: "uptime", js: "uptime", typ: 3.14 },
     ], false),
     "PurpleProfile": o([
         { json: "$schema", js: "$schema", typ: r("Schema") },

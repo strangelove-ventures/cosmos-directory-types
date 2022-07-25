@@ -360,6 +360,9 @@ pub struct FluffyParams {
     #[serde(rename = "community_tax")]
     community_tax: f64,
 
+    #[serde(rename = "distribution")]
+    distribution: Distribution,
+
     #[serde(rename = "epoch_duration")]
     epoch_duration: Option<i64>,
 
@@ -369,8 +372,17 @@ pub struct FluffyParams {
     #[serde(rename = "max_validators")]
     max_validators: i64,
 
+    #[serde(rename = "mint")]
+    mint: Mint,
+
     #[serde(rename = "minting_epoch_provision")]
     minting_epoch_provision: Option<f64>,
+
+    #[serde(rename = "slashing")]
+    slashing: Slashing,
+
+    #[serde(rename = "staking")]
+    staking: Staking,
 
     #[serde(rename = "total_supply")]
     total_supply: String,
@@ -380,6 +392,126 @@ pub struct FluffyParams {
 
     #[serde(rename = "year_minting_provision")]
     year_minting_provision: Option<i64>,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct Distribution {
+    #[serde(rename = "base_proposer_reward")]
+    base_proposer_reward: String,
+
+    #[serde(rename = "bonus_proposer_reward")]
+    bonus_proposer_reward: String,
+
+    #[serde(rename = "community_tax")]
+    community_tax: String,
+
+    #[serde(rename = "withdraw_addr_enabled")]
+    withdraw_addr_enabled: bool,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct Mint {
+    #[serde(rename = "blocks_per_year")]
+    blocks_per_year: Option<String>,
+
+    #[serde(rename = "distribution_proportions")]
+    distribution_proportions: Option<DistributionProportions>,
+
+    #[serde(rename = "epoch_identifier")]
+    epoch_identifier: Option<String>,
+
+    #[serde(rename = "genesis_epoch_provisions")]
+    genesis_epoch_provisions: Option<String>,
+
+    #[serde(rename = "goal_bonded")]
+    goal_bonded: Option<String>,
+
+    #[serde(rename = "inflation_max")]
+    inflation_max: Option<String>,
+
+    #[serde(rename = "inflation_min")]
+    inflation_min: Option<String>,
+
+    #[serde(rename = "inflation_rate_change")]
+    inflation_rate_change: Option<String>,
+
+    #[serde(rename = "mint_denom")]
+    mint_denom: String,
+
+    #[serde(rename = "minting_rewards_distribution_start_epoch")]
+    minting_rewards_distribution_start_epoch: Option<String>,
+
+    #[serde(rename = "reduction_factor")]
+    reduction_factor: Option<String>,
+
+    #[serde(rename = "reduction_period_in_epochs")]
+    reduction_period_in_epochs: Option<String>,
+
+    #[serde(rename = "weighted_developer_rewards_receivers")]
+    weighted_developer_rewards_receivers: Option<Vec<WeightedDeveloperRewardsReceiver>>,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct DistributionProportions {
+    #[serde(rename = "community_pool")]
+    community_pool: String,
+
+    #[serde(rename = "developer_rewards")]
+    developer_rewards: String,
+
+    #[serde(rename = "pool_incentives")]
+    pool_incentives: String,
+
+    #[serde(rename = "staking")]
+    staking: String,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct WeightedDeveloperRewardsReceiver {
+    #[serde(rename = "address")]
+    address: String,
+
+    #[serde(rename = "weight")]
+    weight: String,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct Slashing {
+    #[serde(rename = "downtime_jail_duration")]
+    downtime_jail_duration: String,
+
+    #[serde(rename = "min_signed_per_window")]
+    min_signed_per_window: String,
+
+    #[serde(rename = "signed_blocks_window")]
+    signed_blocks_window: String,
+
+    #[serde(rename = "slash_fraction_double_sign")]
+    slash_fraction_double_sign: String,
+
+    #[serde(rename = "slash_fraction_downtime")]
+    slash_fraction_downtime: String,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct Staking {
+    #[serde(rename = "bond_denom")]
+    bond_denom: String,
+
+    #[serde(rename = "historical_entries")]
+    historical_entries: i64,
+
+    #[serde(rename = "max_entries")]
+    max_entries: i64,
+
+    #[serde(rename = "max_validators")]
+    max_validators: i64,
+
+    #[serde(rename = "min_commission_rate")]
+    min_commission_rate: Option<String>,
+
+    #[serde(rename = "unbonding_time")]
+    unbonding_time: String,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -507,7 +639,7 @@ pub struct ChainElement {
     #[serde(rename = "description")]
     description: Option<Description>,
 
-    #[serde(rename = "hexAddress")]
+    #[serde(rename = "hex_address")]
     hex_address: Option<String>,
 
     #[serde(rename = "identity")]
@@ -525,8 +657,11 @@ pub struct ChainElement {
     #[serde(rename = "mintscan_image")]
     mintscan_image: Option<String>,
 
-    #[serde(rename = "missedBlocks")]
+    #[serde(rename = "missed_blocks")]
     missed_blocks: Option<i64>,
+
+    #[serde(rename = "missed_blocks_periods")]
+    missed_blocks_periods: Option<Vec<MissedBlocksPeriod>>,
 
     #[serde(rename = "moniker")]
     moniker: Option<String>,
@@ -549,6 +684,15 @@ pub struct ChainElement {
     #[serde(rename = "restake")]
     restake: Option<RestakeClass>,
 
+    #[serde(rename = "services")]
+    services: Option<Services>,
+
+    #[serde(rename = "signing_info")]
+    signing_info: Option<SigningInfo>,
+
+    #[serde(rename = "slashes")]
+    slashes: Option<Vec<Slash>>,
+
     #[serde(rename = "status")]
     status: Option<ValidatorStatus>,
 
@@ -563,6 +707,9 @@ pub struct ChainElement {
 
     #[serde(rename = "uptime")]
     uptime: Option<f64>,
+
+    #[serde(rename = "uptime_periods")]
+    uptime_periods: Option<Vec<UptimePeriod>>,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -614,6 +761,15 @@ pub struct Description {
 }
 
 #[derive(Serialize, Deserialize)]
+pub struct MissedBlocksPeriod {
+    #[serde(rename = "blocks")]
+    blocks: i64,
+
+    #[serde(rename = "missed")]
+    missed: i64,
+}
+
+#[derive(Serialize, Deserialize)]
 pub struct RestakeClass {
     #[serde(rename = "address")]
     address: String,
@@ -623,6 +779,63 @@ pub struct RestakeClass {
 
     #[serde(rename = "run_time")]
     run_time: RunTime,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct Services {
+    #[serde(rename = "staking_rewards")]
+    staking_rewards: StakingRewards,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct StakingRewards {
+    #[serde(rename = "name")]
+    name: String,
+
+    #[serde(rename = "slug")]
+    slug: String,
+
+    #[serde(rename = "verified")]
+    verified: bool,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct SigningInfo {
+    #[serde(rename = "address")]
+    address: String,
+
+    #[serde(rename = "index_offset")]
+    index_offset: String,
+
+    #[serde(rename = "jailed_until")]
+    jailed_until: String,
+
+    #[serde(rename = "missed_blocks_counter")]
+    missed_blocks_counter: String,
+
+    #[serde(rename = "start_height")]
+    start_height: String,
+
+    #[serde(rename = "tombstoned")]
+    tombstoned: bool,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct Slash {
+    #[serde(rename = "fraction")]
+    fraction: String,
+
+    #[serde(rename = "validator_period")]
+    validator_period: String,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct UptimePeriod {
+    #[serde(rename = "blocks")]
+    blocks: i64,
+
+    #[serde(rename = "uptime")]
+    uptime: f64,
 }
 
 #[derive(Serialize, Deserialize)]

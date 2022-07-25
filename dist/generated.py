@@ -78,13 +78,13 @@ def to_enum(c: Type[EnumT], x: Any) -> EnumT:
     return x.value
 
 
-def from_datetime(x: Any) -> datetime:
-    return dateutil.parser.parse(x)
-
-
 def is_type(t: Type[T], x: Any) -> T:
     assert isinstance(x, t)
     return x
+
+
+def from_datetime(x: Any) -> datetime:
+    return dateutil.parser.parse(x)
 
 
 class Grpc:
@@ -519,6 +519,226 @@ class LogoURIs:
         return result
 
 
+class Distribution:
+    base_proposer_reward: str
+    bonus_proposer_reward: str
+    community_tax: str
+    withdraw_addr_enabled: bool
+
+    def __init__(self, base_proposer_reward: str, bonus_proposer_reward: str, community_tax: str, withdraw_addr_enabled: bool) -> None:
+        self.base_proposer_reward = base_proposer_reward
+        self.bonus_proposer_reward = bonus_proposer_reward
+        self.community_tax = community_tax
+        self.withdraw_addr_enabled = withdraw_addr_enabled
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'Distribution':
+        assert isinstance(obj, dict)
+        base_proposer_reward = from_str(obj.get("base_proposer_reward"))
+        bonus_proposer_reward = from_str(obj.get("bonus_proposer_reward"))
+        community_tax = from_str(obj.get("community_tax"))
+        withdraw_addr_enabled = from_bool(obj.get("withdraw_addr_enabled"))
+        return Distribution(base_proposer_reward, bonus_proposer_reward, community_tax, withdraw_addr_enabled)
+
+    def to_dict(self) -> dict:
+        result: dict = {}
+        result["base_proposer_reward"] = from_str(self.base_proposer_reward)
+        result["bonus_proposer_reward"] = from_str(self.bonus_proposer_reward)
+        result["community_tax"] = from_str(self.community_tax)
+        result["withdraw_addr_enabled"] = from_bool(self.withdraw_addr_enabled)
+        return result
+
+
+class DistributionProportions:
+    community_pool: str
+    developer_rewards: str
+    pool_incentives: str
+    staking: str
+
+    def __init__(self, community_pool: str, developer_rewards: str, pool_incentives: str, staking: str) -> None:
+        self.community_pool = community_pool
+        self.developer_rewards = developer_rewards
+        self.pool_incentives = pool_incentives
+        self.staking = staking
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'DistributionProportions':
+        assert isinstance(obj, dict)
+        community_pool = from_str(obj.get("community_pool"))
+        developer_rewards = from_str(obj.get("developer_rewards"))
+        pool_incentives = from_str(obj.get("pool_incentives"))
+        staking = from_str(obj.get("staking"))
+        return DistributionProportions(community_pool, developer_rewards, pool_incentives, staking)
+
+    def to_dict(self) -> dict:
+        result: dict = {}
+        result["community_pool"] = from_str(self.community_pool)
+        result["developer_rewards"] = from_str(self.developer_rewards)
+        result["pool_incentives"] = from_str(self.pool_incentives)
+        result["staking"] = from_str(self.staking)
+        return result
+
+
+class WeightedDeveloperRewardsReceiver:
+    address: str
+    weight: str
+
+    def __init__(self, address: str, weight: str) -> None:
+        self.address = address
+        self.weight = weight
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'WeightedDeveloperRewardsReceiver':
+        assert isinstance(obj, dict)
+        address = from_str(obj.get("address"))
+        weight = from_str(obj.get("weight"))
+        return WeightedDeveloperRewardsReceiver(address, weight)
+
+    def to_dict(self) -> dict:
+        result: dict = {}
+        result["address"] = from_str(self.address)
+        result["weight"] = from_str(self.weight)
+        return result
+
+
+class Mint:
+    blocks_per_year: Optional[int]
+    distribution_proportions: Optional[DistributionProportions]
+    epoch_identifier: Optional[str]
+    genesis_epoch_provisions: Optional[str]
+    goal_bonded: Optional[str]
+    inflation_max: Optional[str]
+    inflation_min: Optional[str]
+    inflation_rate_change: Optional[str]
+    mint_denom: str
+    minting_rewards_distribution_start_epoch: Optional[int]
+    reduction_factor: Optional[str]
+    reduction_period_in_epochs: Optional[int]
+    weighted_developer_rewards_receivers: Optional[List[WeightedDeveloperRewardsReceiver]]
+
+    def __init__(self, blocks_per_year: Optional[int], distribution_proportions: Optional[DistributionProportions], epoch_identifier: Optional[str], genesis_epoch_provisions: Optional[str], goal_bonded: Optional[str], inflation_max: Optional[str], inflation_min: Optional[str], inflation_rate_change: Optional[str], mint_denom: str, minting_rewards_distribution_start_epoch: Optional[int], reduction_factor: Optional[str], reduction_period_in_epochs: Optional[int], weighted_developer_rewards_receivers: Optional[List[WeightedDeveloperRewardsReceiver]]) -> None:
+        self.blocks_per_year = blocks_per_year
+        self.distribution_proportions = distribution_proportions
+        self.epoch_identifier = epoch_identifier
+        self.genesis_epoch_provisions = genesis_epoch_provisions
+        self.goal_bonded = goal_bonded
+        self.inflation_max = inflation_max
+        self.inflation_min = inflation_min
+        self.inflation_rate_change = inflation_rate_change
+        self.mint_denom = mint_denom
+        self.minting_rewards_distribution_start_epoch = minting_rewards_distribution_start_epoch
+        self.reduction_factor = reduction_factor
+        self.reduction_period_in_epochs = reduction_period_in_epochs
+        self.weighted_developer_rewards_receivers = weighted_developer_rewards_receivers
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'Mint':
+        assert isinstance(obj, dict)
+        blocks_per_year = from_union([from_none, lambda x: int(from_str(x))], obj.get("blocks_per_year"))
+        distribution_proportions = from_union([DistributionProportions.from_dict, from_none], obj.get("distribution_proportions"))
+        epoch_identifier = from_union([from_none, from_str], obj.get("epoch_identifier"))
+        genesis_epoch_provisions = from_union([from_none, from_str], obj.get("genesis_epoch_provisions"))
+        goal_bonded = from_union([from_none, from_str], obj.get("goal_bonded"))
+        inflation_max = from_union([from_none, from_str], obj.get("inflation_max"))
+        inflation_min = from_union([from_none, from_str], obj.get("inflation_min"))
+        inflation_rate_change = from_union([from_none, from_str], obj.get("inflation_rate_change"))
+        mint_denom = from_str(obj.get("mint_denom"))
+        minting_rewards_distribution_start_epoch = from_union([from_none, lambda x: int(from_str(x))], obj.get("minting_rewards_distribution_start_epoch"))
+        reduction_factor = from_union([from_none, from_str], obj.get("reduction_factor"))
+        reduction_period_in_epochs = from_union([from_none, lambda x: int(from_str(x))], obj.get("reduction_period_in_epochs"))
+        weighted_developer_rewards_receivers = from_union([lambda x: from_list(WeightedDeveloperRewardsReceiver.from_dict, x), from_none], obj.get("weighted_developer_rewards_receivers"))
+        return Mint(blocks_per_year, distribution_proportions, epoch_identifier, genesis_epoch_provisions, goal_bonded, inflation_max, inflation_min, inflation_rate_change, mint_denom, minting_rewards_distribution_start_epoch, reduction_factor, reduction_period_in_epochs, weighted_developer_rewards_receivers)
+
+    def to_dict(self) -> dict:
+        result: dict = {}
+        result["blocks_per_year"] = from_union([lambda x: from_none((lambda x: is_type(type(None), x))(x)), lambda x: from_str((lambda x: str((lambda x: is_type(int, x))(x)))(x))], self.blocks_per_year)
+        result["distribution_proportions"] = from_union([lambda x: to_class(DistributionProportions, x), from_none], self.distribution_proportions)
+        result["epoch_identifier"] = from_union([from_none, from_str], self.epoch_identifier)
+        result["genesis_epoch_provisions"] = from_union([from_none, from_str], self.genesis_epoch_provisions)
+        result["goal_bonded"] = from_union([from_none, from_str], self.goal_bonded)
+        result["inflation_max"] = from_union([from_none, from_str], self.inflation_max)
+        result["inflation_min"] = from_union([from_none, from_str], self.inflation_min)
+        result["inflation_rate_change"] = from_union([from_none, from_str], self.inflation_rate_change)
+        result["mint_denom"] = from_str(self.mint_denom)
+        result["minting_rewards_distribution_start_epoch"] = from_union([lambda x: from_none((lambda x: is_type(type(None), x))(x)), lambda x: from_str((lambda x: str((lambda x: is_type(int, x))(x)))(x))], self.minting_rewards_distribution_start_epoch)
+        result["reduction_factor"] = from_union([from_none, from_str], self.reduction_factor)
+        result["reduction_period_in_epochs"] = from_union([lambda x: from_none((lambda x: is_type(type(None), x))(x)), lambda x: from_str((lambda x: str((lambda x: is_type(int, x))(x)))(x))], self.reduction_period_in_epochs)
+        result["weighted_developer_rewards_receivers"] = from_union([lambda x: from_list(lambda x: to_class(WeightedDeveloperRewardsReceiver, x), x), from_none], self.weighted_developer_rewards_receivers)
+        return result
+
+
+class Slashing:
+    downtime_jail_duration: str
+    min_signed_per_window: str
+    signed_blocks_window: int
+    slash_fraction_double_sign: str
+    slash_fraction_downtime: str
+
+    def __init__(self, downtime_jail_duration: str, min_signed_per_window: str, signed_blocks_window: int, slash_fraction_double_sign: str, slash_fraction_downtime: str) -> None:
+        self.downtime_jail_duration = downtime_jail_duration
+        self.min_signed_per_window = min_signed_per_window
+        self.signed_blocks_window = signed_blocks_window
+        self.slash_fraction_double_sign = slash_fraction_double_sign
+        self.slash_fraction_downtime = slash_fraction_downtime
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'Slashing':
+        assert isinstance(obj, dict)
+        downtime_jail_duration = from_str(obj.get("downtime_jail_duration"))
+        min_signed_per_window = from_str(obj.get("min_signed_per_window"))
+        signed_blocks_window = int(from_str(obj.get("signed_blocks_window")))
+        slash_fraction_double_sign = from_str(obj.get("slash_fraction_double_sign"))
+        slash_fraction_downtime = from_str(obj.get("slash_fraction_downtime"))
+        return Slashing(downtime_jail_duration, min_signed_per_window, signed_blocks_window, slash_fraction_double_sign, slash_fraction_downtime)
+
+    def to_dict(self) -> dict:
+        result: dict = {}
+        result["downtime_jail_duration"] = from_str(self.downtime_jail_duration)
+        result["min_signed_per_window"] = from_str(self.min_signed_per_window)
+        result["signed_blocks_window"] = from_str(str(self.signed_blocks_window))
+        result["slash_fraction_double_sign"] = from_str(self.slash_fraction_double_sign)
+        result["slash_fraction_downtime"] = from_str(self.slash_fraction_downtime)
+        return result
+
+
+class Staking:
+    bond_denom: str
+    historical_entries: int
+    max_entries: int
+    max_validators: int
+    min_commission_rate: Optional[str]
+    unbonding_time: str
+
+    def __init__(self, bond_denom: str, historical_entries: int, max_entries: int, max_validators: int, min_commission_rate: Optional[str], unbonding_time: str) -> None:
+        self.bond_denom = bond_denom
+        self.historical_entries = historical_entries
+        self.max_entries = max_entries
+        self.max_validators = max_validators
+        self.min_commission_rate = min_commission_rate
+        self.unbonding_time = unbonding_time
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'Staking':
+        assert isinstance(obj, dict)
+        bond_denom = from_str(obj.get("bond_denom"))
+        historical_entries = from_int(obj.get("historical_entries"))
+        max_entries = from_int(obj.get("max_entries"))
+        max_validators = from_int(obj.get("max_validators"))
+        min_commission_rate = from_union([from_none, from_str], obj.get("min_commission_rate"))
+        unbonding_time = from_str(obj.get("unbonding_time"))
+        return Staking(bond_denom, historical_entries, max_entries, max_validators, min_commission_rate, unbonding_time)
+
+    def to_dict(self) -> dict:
+        result: dict = {}
+        result["bond_denom"] = from_str(self.bond_denom)
+        result["historical_entries"] = from_int(self.historical_entries)
+        result["max_entries"] = from_int(self.max_entries)
+        result["max_validators"] = from_int(self.max_validators)
+        result["min_commission_rate"] = from_union([from_none, from_str], self.min_commission_rate)
+        result["unbonding_time"] = from_str(self.unbonding_time)
+        return result
+
+
 class FluffyParams:
     actual_block_time: float
     actual_blocks_per_year: float
@@ -531,15 +751,19 @@ class FluffyParams:
     bonded_tokens: str
     calculated_apr: float
     community_tax: float
+    distribution: Distribution
     epoch_duration: Optional[int]
     estimated_apr: float
     max_validators: int
+    mint: Mint
     minting_epoch_provision: Optional[float]
+    slashing: Slashing
+    staking: Staking
     total_supply: str
     unbonding_time: int
     year_minting_provision: Optional[int]
 
-    def __init__(self, actual_block_time: float, actual_blocks_per_year: float, annual_provision: str, authz: bool, base_inflation: float, block_time: Optional[float], blocks_per_year: Optional[int], bonded_ratio: float, bonded_tokens: str, calculated_apr: float, community_tax: float, epoch_duration: Optional[int], estimated_apr: float, max_validators: int, minting_epoch_provision: Optional[float], total_supply: str, unbonding_time: int, year_minting_provision: Optional[int]) -> None:
+    def __init__(self, actual_block_time: float, actual_blocks_per_year: float, annual_provision: str, authz: bool, base_inflation: float, block_time: Optional[float], blocks_per_year: Optional[int], bonded_ratio: float, bonded_tokens: str, calculated_apr: float, community_tax: float, distribution: Distribution, epoch_duration: Optional[int], estimated_apr: float, max_validators: int, mint: Mint, minting_epoch_provision: Optional[float], slashing: Slashing, staking: Staking, total_supply: str, unbonding_time: int, year_minting_provision: Optional[int]) -> None:
         self.actual_block_time = actual_block_time
         self.actual_blocks_per_year = actual_blocks_per_year
         self.annual_provision = annual_provision
@@ -551,10 +775,14 @@ class FluffyParams:
         self.bonded_tokens = bonded_tokens
         self.calculated_apr = calculated_apr
         self.community_tax = community_tax
+        self.distribution = distribution
         self.epoch_duration = epoch_duration
         self.estimated_apr = estimated_apr
         self.max_validators = max_validators
+        self.mint = mint
         self.minting_epoch_provision = minting_epoch_provision
+        self.slashing = slashing
+        self.staking = staking
         self.total_supply = total_supply
         self.unbonding_time = unbonding_time
         self.year_minting_provision = year_minting_provision
@@ -573,14 +801,18 @@ class FluffyParams:
         bonded_tokens = from_str(obj.get("bonded_tokens"))
         calculated_apr = from_float(obj.get("calculated_apr"))
         community_tax = from_float(obj.get("community_tax"))
+        distribution = Distribution.from_dict(obj.get("distribution"))
         epoch_duration = from_union([from_int, from_none], obj.get("epoch_duration"))
         estimated_apr = from_float(obj.get("estimated_apr"))
         max_validators = from_int(obj.get("max_validators"))
+        mint = Mint.from_dict(obj.get("mint"))
         minting_epoch_provision = from_union([from_float, from_none], obj.get("minting_epoch_provision"))
+        slashing = Slashing.from_dict(obj.get("slashing"))
+        staking = Staking.from_dict(obj.get("staking"))
         total_supply = from_str(obj.get("total_supply"))
         unbonding_time = from_int(obj.get("unbonding_time"))
         year_minting_provision = from_union([from_int, from_none], obj.get("year_minting_provision"))
-        return FluffyParams(actual_block_time, actual_blocks_per_year, annual_provision, authz, base_inflation, block_time, blocks_per_year, bonded_ratio, bonded_tokens, calculated_apr, community_tax, epoch_duration, estimated_apr, max_validators, minting_epoch_provision, total_supply, unbonding_time, year_minting_provision)
+        return FluffyParams(actual_block_time, actual_blocks_per_year, annual_provision, authz, base_inflation, block_time, blocks_per_year, bonded_ratio, bonded_tokens, calculated_apr, community_tax, distribution, epoch_duration, estimated_apr, max_validators, mint, minting_epoch_provision, slashing, staking, total_supply, unbonding_time, year_minting_provision)
 
     def to_dict(self) -> dict:
         result: dict = {}
@@ -595,10 +827,14 @@ class FluffyParams:
         result["bonded_tokens"] = from_str(self.bonded_tokens)
         result["calculated_apr"] = to_float(self.calculated_apr)
         result["community_tax"] = to_float(self.community_tax)
+        result["distribution"] = to_class(Distribution, self.distribution)
         result["epoch_duration"] = from_union([from_int, from_none], self.epoch_duration)
         result["estimated_apr"] = to_float(self.estimated_apr)
         result["max_validators"] = from_int(self.max_validators)
+        result["mint"] = to_class(Mint, self.mint)
         result["minting_epoch_provision"] = from_union([to_float, from_none], self.minting_epoch_provision)
+        result["slashing"] = to_class(Slashing, self.slashing)
+        result["staking"] = to_class(Staking, self.staking)
         result["total_supply"] = from_str(self.total_supply)
         result["unbonding_time"] = from_int(self.unbonding_time)
         result["year_minting_provision"] = from_union([from_int, from_none], self.year_minting_provision)
@@ -1037,6 +1273,28 @@ class Description:
         return result
 
 
+class MissedBlocksPeriod:
+    blocks: int
+    missed: int
+
+    def __init__(self, blocks: int, missed: int) -> None:
+        self.blocks = blocks
+        self.missed = missed
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'MissedBlocksPeriod':
+        assert isinstance(obj, dict)
+        blocks = from_int(obj.get("blocks"))
+        missed = from_int(obj.get("missed"))
+        return MissedBlocksPeriod(blocks, missed)
+
+    def to_dict(self) -> dict:
+        result: dict = {}
+        result["blocks"] = from_int(self.blocks)
+        result["missed"] = from_int(self.missed)
+        return result
+
+
 class RestakeClass:
     address: str
     minimum_reward: float
@@ -1063,10 +1321,136 @@ class RestakeClass:
         return result
 
 
+class StakingRewards:
+    name: str
+    slug: str
+    verified: bool
+
+    def __init__(self, name: str, slug: str, verified: bool) -> None:
+        self.name = name
+        self.slug = slug
+        self.verified = verified
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'StakingRewards':
+        assert isinstance(obj, dict)
+        name = from_str(obj.get("name"))
+        slug = from_str(obj.get("slug"))
+        verified = from_bool(obj.get("verified"))
+        return StakingRewards(name, slug, verified)
+
+    def to_dict(self) -> dict:
+        result: dict = {}
+        result["name"] = from_str(self.name)
+        result["slug"] = from_str(self.slug)
+        result["verified"] = from_bool(self.verified)
+        return result
+
+
+class Services:
+    staking_rewards: StakingRewards
+
+    def __init__(self, staking_rewards: StakingRewards) -> None:
+        self.staking_rewards = staking_rewards
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'Services':
+        assert isinstance(obj, dict)
+        staking_rewards = StakingRewards.from_dict(obj.get("staking_rewards"))
+        return Services(staking_rewards)
+
+    def to_dict(self) -> dict:
+        result: dict = {}
+        result["staking_rewards"] = to_class(StakingRewards, self.staking_rewards)
+        return result
+
+
+class SigningInfo:
+    address: str
+    index_offset: int
+    jailed_until: datetime
+    missed_blocks_counter: int
+    start_height: int
+    tombstoned: bool
+
+    def __init__(self, address: str, index_offset: int, jailed_until: datetime, missed_blocks_counter: int, start_height: int, tombstoned: bool) -> None:
+        self.address = address
+        self.index_offset = index_offset
+        self.jailed_until = jailed_until
+        self.missed_blocks_counter = missed_blocks_counter
+        self.start_height = start_height
+        self.tombstoned = tombstoned
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'SigningInfo':
+        assert isinstance(obj, dict)
+        address = from_str(obj.get("address"))
+        index_offset = int(from_str(obj.get("index_offset")))
+        jailed_until = from_datetime(obj.get("jailed_until"))
+        missed_blocks_counter = int(from_str(obj.get("missed_blocks_counter")))
+        start_height = int(from_str(obj.get("start_height")))
+        tombstoned = from_bool(obj.get("tombstoned"))
+        return SigningInfo(address, index_offset, jailed_until, missed_blocks_counter, start_height, tombstoned)
+
+    def to_dict(self) -> dict:
+        result: dict = {}
+        result["address"] = from_str(self.address)
+        result["index_offset"] = from_str(str(self.index_offset))
+        result["jailed_until"] = self.jailed_until.isoformat()
+        result["missed_blocks_counter"] = from_str(str(self.missed_blocks_counter))
+        result["start_height"] = from_str(str(self.start_height))
+        result["tombstoned"] = from_bool(self.tombstoned)
+        return result
+
+
+class Slash:
+    fraction: str
+    validator_period: int
+
+    def __init__(self, fraction: str, validator_period: int) -> None:
+        self.fraction = fraction
+        self.validator_period = validator_period
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'Slash':
+        assert isinstance(obj, dict)
+        fraction = from_str(obj.get("fraction"))
+        validator_period = int(from_str(obj.get("validator_period")))
+        return Slash(fraction, validator_period)
+
+    def to_dict(self) -> dict:
+        result: dict = {}
+        result["fraction"] = from_str(self.fraction)
+        result["validator_period"] = from_str(str(self.validator_period))
+        return result
+
+
 class ValidatorStatus(Enum):
     BOND_STATUS_BONDED = "BOND_STATUS_BONDED"
     BOND_STATUS_UNBONDED = "BOND_STATUS_UNBONDED"
     BOND_STATUS_UNBONDING = "BOND_STATUS_UNBONDING"
+
+
+class UptimePeriod:
+    blocks: int
+    uptime: float
+
+    def __init__(self, blocks: int, uptime: float) -> None:
+        self.blocks = blocks
+        self.uptime = uptime
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'UptimePeriod':
+        assert isinstance(obj, dict)
+        blocks = from_int(obj.get("blocks"))
+        uptime = from_float(obj.get("uptime"))
+        return UptimePeriod(blocks, uptime)
+
+    def to_dict(self) -> dict:
+        result: dict = {}
+        result["blocks"] = from_int(self.blocks)
+        result["uptime"] = to_float(self.uptime)
+        return result
 
 
 class ChainElement:
@@ -1082,6 +1466,7 @@ class ChainElement:
     min_self_delegation: Optional[str]
     mintscan_image: Optional[str]
     missed_blocks: Optional[int]
+    missed_blocks_periods: Optional[List[MissedBlocksPeriod]]
     moniker: Optional[str]
     name: Optional[str]
     operator_address: Optional[str]
@@ -1089,13 +1474,17 @@ class ChainElement:
     profile: Optional[ChainProfile]
     rank: Optional[int]
     restake: Optional[RestakeClass]
+    services: Optional[Services]
+    signing_info: Optional[SigningInfo]
+    slashes: Optional[List[Slash]]
     status: Optional[ValidatorStatus]
     tokens: Optional[str]
     unbonding_height: Optional[int]
     unbonding_time: Optional[datetime]
     uptime: Optional[float]
+    uptime_periods: Optional[List[UptimePeriod]]
 
-    def __init__(self, address: str, commission: Optional[Commission], consensus_pubkey: Optional[ConsensusPubkey], delegator_shares: Optional[str], description: Optional[Description], hex_address: Optional[str], identity: Optional[str], jailed: Optional[bool], keybase_image: Optional[str], min_self_delegation: Optional[str], mintscan_image: Optional[str], missed_blocks: Optional[int], moniker: Optional[str], name: Optional[str], operator_address: Optional[str], path: Optional[str], profile: Optional[ChainProfile], rank: Optional[int], restake: Optional[RestakeClass], status: Optional[ValidatorStatus], tokens: Optional[str], unbonding_height: Optional[int], unbonding_time: Optional[datetime], uptime: Optional[float]) -> None:
+    def __init__(self, address: str, commission: Optional[Commission], consensus_pubkey: Optional[ConsensusPubkey], delegator_shares: Optional[str], description: Optional[Description], hex_address: Optional[str], identity: Optional[str], jailed: Optional[bool], keybase_image: Optional[str], min_self_delegation: Optional[str], mintscan_image: Optional[str], missed_blocks: Optional[int], missed_blocks_periods: Optional[List[MissedBlocksPeriod]], moniker: Optional[str], name: Optional[str], operator_address: Optional[str], path: Optional[str], profile: Optional[ChainProfile], rank: Optional[int], restake: Optional[RestakeClass], services: Optional[Services], signing_info: Optional[SigningInfo], slashes: Optional[List[Slash]], status: Optional[ValidatorStatus], tokens: Optional[str], unbonding_height: Optional[int], unbonding_time: Optional[datetime], uptime: Optional[float], uptime_periods: Optional[List[UptimePeriod]]) -> None:
         self.address = address
         self.commission = commission
         self.consensus_pubkey = consensus_pubkey
@@ -1108,6 +1497,7 @@ class ChainElement:
         self.min_self_delegation = min_self_delegation
         self.mintscan_image = mintscan_image
         self.missed_blocks = missed_blocks
+        self.missed_blocks_periods = missed_blocks_periods
         self.moniker = moniker
         self.name = name
         self.operator_address = operator_address
@@ -1115,11 +1505,15 @@ class ChainElement:
         self.profile = profile
         self.rank = rank
         self.restake = restake
+        self.services = services
+        self.signing_info = signing_info
+        self.slashes = slashes
         self.status = status
         self.tokens = tokens
         self.unbonding_height = unbonding_height
         self.unbonding_time = unbonding_time
         self.uptime = uptime
+        self.uptime_periods = uptime_periods
 
     @staticmethod
     def from_dict(obj: Any) -> 'ChainElement':
@@ -1129,13 +1523,14 @@ class ChainElement:
         consensus_pubkey = from_union([ConsensusPubkey.from_dict, from_none], obj.get("consensus_pubkey"))
         delegator_shares = from_union([from_none, from_str], obj.get("delegator_shares"))
         description = from_union([Description.from_dict, from_none], obj.get("description"))
-        hex_address = from_union([from_none, from_str], obj.get("hexAddress"))
+        hex_address = from_union([from_none, from_str], obj.get("hex_address"))
         identity = from_union([from_none, from_str], obj.get("identity"))
         jailed = from_union([from_bool, from_none], obj.get("jailed"))
         keybase_image = from_union([from_none, from_str], obj.get("keybase_image"))
         min_self_delegation = from_union([from_none, from_str], obj.get("min_self_delegation"))
         mintscan_image = from_union([from_none, from_str], obj.get("mintscan_image"))
-        missed_blocks = from_union([from_int, from_none], obj.get("missedBlocks"))
+        missed_blocks = from_union([from_int, from_none], obj.get("missed_blocks"))
+        missed_blocks_periods = from_union([lambda x: from_list(MissedBlocksPeriod.from_dict, x), from_none], obj.get("missed_blocks_periods"))
         moniker = from_union([from_none, from_str], obj.get("moniker"))
         name = from_union([from_none, from_str], obj.get("name"))
         operator_address = from_union([from_none, from_str], obj.get("operator_address"))
@@ -1143,12 +1538,16 @@ class ChainElement:
         profile = from_union([ChainProfile.from_dict, from_none], obj.get("profile"))
         rank = from_union([from_int, from_none], obj.get("rank"))
         restake = from_union([RestakeClass.from_dict, from_none], obj.get("restake"))
+        services = from_union([Services.from_dict, from_none], obj.get("services"))
+        signing_info = from_union([SigningInfo.from_dict, from_none], obj.get("signing_info"))
+        slashes = from_union([lambda x: from_list(Slash.from_dict, x), from_none], obj.get("slashes"))
         status = from_union([ValidatorStatus, from_none], obj.get("status"))
         tokens = from_union([from_none, from_str], obj.get("tokens"))
         unbonding_height = from_union([from_none, lambda x: int(from_str(x))], obj.get("unbonding_height"))
         unbonding_time = from_union([from_datetime, from_none], obj.get("unbonding_time"))
         uptime = from_union([from_float, from_none], obj.get("uptime"))
-        return ChainElement(address, commission, consensus_pubkey, delegator_shares, description, hex_address, identity, jailed, keybase_image, min_self_delegation, mintscan_image, missed_blocks, moniker, name, operator_address, path, profile, rank, restake, status, tokens, unbonding_height, unbonding_time, uptime)
+        uptime_periods = from_union([lambda x: from_list(UptimePeriod.from_dict, x), from_none], obj.get("uptime_periods"))
+        return ChainElement(address, commission, consensus_pubkey, delegator_shares, description, hex_address, identity, jailed, keybase_image, min_self_delegation, mintscan_image, missed_blocks, missed_blocks_periods, moniker, name, operator_address, path, profile, rank, restake, services, signing_info, slashes, status, tokens, unbonding_height, unbonding_time, uptime, uptime_periods)
 
     def to_dict(self) -> dict:
         result: dict = {}
@@ -1157,13 +1556,14 @@ class ChainElement:
         result["consensus_pubkey"] = from_union([lambda x: to_class(ConsensusPubkey, x), from_none], self.consensus_pubkey)
         result["delegator_shares"] = from_union([from_none, from_str], self.delegator_shares)
         result["description"] = from_union([lambda x: to_class(Description, x), from_none], self.description)
-        result["hexAddress"] = from_union([from_none, from_str], self.hex_address)
+        result["hex_address"] = from_union([from_none, from_str], self.hex_address)
         result["identity"] = from_union([from_none, from_str], self.identity)
         result["jailed"] = from_union([from_bool, from_none], self.jailed)
         result["keybase_image"] = from_union([from_none, from_str], self.keybase_image)
         result["min_self_delegation"] = from_union([from_none, from_str], self.min_self_delegation)
         result["mintscan_image"] = from_union([from_none, from_str], self.mintscan_image)
-        result["missedBlocks"] = from_union([from_int, from_none], self.missed_blocks)
+        result["missed_blocks"] = from_union([from_int, from_none], self.missed_blocks)
+        result["missed_blocks_periods"] = from_union([lambda x: from_list(lambda x: to_class(MissedBlocksPeriod, x), x), from_none], self.missed_blocks_periods)
         result["moniker"] = from_union([from_none, from_str], self.moniker)
         result["name"] = from_union([from_none, from_str], self.name)
         result["operator_address"] = from_union([from_none, from_str], self.operator_address)
@@ -1171,11 +1571,15 @@ class ChainElement:
         result["profile"] = from_union([lambda x: to_class(ChainProfile, x), from_none], self.profile)
         result["rank"] = from_union([from_int, from_none], self.rank)
         result["restake"] = from_union([lambda x: to_class(RestakeClass, x), from_none], self.restake)
+        result["services"] = from_union([lambda x: to_class(Services, x), from_none], self.services)
+        result["signing_info"] = from_union([lambda x: to_class(SigningInfo, x), from_none], self.signing_info)
+        result["slashes"] = from_union([lambda x: from_list(lambda x: to_class(Slash, x), x), from_none], self.slashes)
         result["status"] = from_union([lambda x: to_enum(ValidatorStatus, x), from_none], self.status)
         result["tokens"] = from_union([from_none, from_str], self.tokens)
         result["unbonding_height"] = from_union([lambda x: from_none((lambda x: is_type(type(None), x))(x)), lambda x: from_str((lambda x: str((lambda x: is_type(int, x))(x)))(x))], self.unbonding_height)
         result["unbonding_time"] = from_union([lambda x: x.isoformat(), from_none], self.unbonding_time)
         result["uptime"] = from_union([to_float, from_none], self.uptime)
+        result["uptime_periods"] = from_union([lambda x: from_list(lambda x: to_class(UptimePeriod, x), x), from_none], self.uptime_periods)
         return result
 
 

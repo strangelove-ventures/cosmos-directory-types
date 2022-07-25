@@ -209,24 +209,80 @@ type LogoURIs struct {
 }
 
 type FluffyParams struct {
-	ActualBlockTime       float64  `json:"actual_block_time"`                
-	ActualBlocksPerYear   float64  `json:"actual_blocks_per_year"`           
-	AnnualProvision       string   `json:"annual_provision"`                 
-	Authz                 bool     `json:"authz"`                            
-	BaseInflation         float64  `json:"base_inflation"`                   
-	BlockTime             *float64 `json:"block_time,omitempty"`             
-	BlocksPerYear         *int64   `json:"blocks_per_year,omitempty"`        
-	BondedRatio           float64  `json:"bonded_ratio"`                     
-	BondedTokens          string   `json:"bonded_tokens"`                    
-	CalculatedAPR         float64  `json:"calculated_apr"`                   
-	CommunityTax          float64  `json:"community_tax"`                    
-	EpochDuration         *int64   `json:"epoch_duration,omitempty"`         
-	EstimatedAPR          float64  `json:"estimated_apr"`                    
-	MaxValidators         int64    `json:"max_validators"`                   
-	MintingEpochProvision *float64 `json:"minting_epoch_provision,omitempty"`
-	TotalSupply           string   `json:"total_supply"`                     
-	UnbondingTime         int64    `json:"unbonding_time"`                   
-	YearMintingProvision  *int64   `json:"year_minting_provision,omitempty"` 
+	ActualBlockTime       float64      `json:"actual_block_time"`                
+	ActualBlocksPerYear   float64      `json:"actual_blocks_per_year"`           
+	AnnualProvision       string       `json:"annual_provision"`                 
+	Authz                 bool         `json:"authz"`                            
+	BaseInflation         float64      `json:"base_inflation"`                   
+	BlockTime             *float64     `json:"block_time,omitempty"`             
+	BlocksPerYear         *int64       `json:"blocks_per_year,omitempty"`        
+	BondedRatio           float64      `json:"bonded_ratio"`                     
+	BondedTokens          string       `json:"bonded_tokens"`                    
+	CalculatedAPR         float64      `json:"calculated_apr"`                   
+	CommunityTax          float64      `json:"community_tax"`                    
+	Distribution          Distribution `json:"distribution"`                     
+	EpochDuration         *int64       `json:"epoch_duration,omitempty"`         
+	EstimatedAPR          float64      `json:"estimated_apr"`                    
+	MaxValidators         int64        `json:"max_validators"`                   
+	Mint                  Mint         `json:"mint"`                             
+	MintingEpochProvision *float64     `json:"minting_epoch_provision,omitempty"`
+	Slashing              Slashing     `json:"slashing"`                         
+	Staking               Staking      `json:"staking"`                          
+	TotalSupply           string       `json:"total_supply"`                     
+	UnbondingTime         int64        `json:"unbonding_time"`                   
+	YearMintingProvision  *int64       `json:"year_minting_provision,omitempty"` 
+}
+
+type Distribution struct {
+	BaseProposerReward  string `json:"base_proposer_reward"` 
+	BonusProposerReward string `json:"bonus_proposer_reward"`
+	CommunityTax        string `json:"community_tax"`        
+	WithdrawAddrEnabled bool   `json:"withdraw_addr_enabled"`
+}
+
+type Mint struct {
+	BlocksPerYear                        *string                            `json:"blocks_per_year,omitempty"`                         
+	DistributionProportions              *DistributionProportions           `json:"distribution_proportions,omitempty"`                
+	EpochIdentifier                      *string                            `json:"epoch_identifier,omitempty"`                        
+	GenesisEpochProvisions               *string                            `json:"genesis_epoch_provisions,omitempty"`                
+	GoalBonded                           *string                            `json:"goal_bonded,omitempty"`                             
+	InflationMax                         *string                            `json:"inflation_max,omitempty"`                           
+	InflationMin                         *string                            `json:"inflation_min,omitempty"`                           
+	InflationRateChange                  *string                            `json:"inflation_rate_change,omitempty"`                   
+	MintDenom                            string                             `json:"mint_denom"`                                        
+	MintingRewardsDistributionStartEpoch *string                            `json:"minting_rewards_distribution_start_epoch,omitempty"`
+	ReductionFactor                      *string                            `json:"reduction_factor,omitempty"`                        
+	ReductionPeriodInEpochs              *string                            `json:"reduction_period_in_epochs,omitempty"`              
+	WeightedDeveloperRewardsReceivers    []WeightedDeveloperRewardsReceiver `json:"weighted_developer_rewards_receivers,omitempty"`    
+}
+
+type DistributionProportions struct {
+	CommunityPool    string `json:"community_pool"`   
+	DeveloperRewards string `json:"developer_rewards"`
+	PoolIncentives   string `json:"pool_incentives"`  
+	Staking          string `json:"staking"`          
+}
+
+type WeightedDeveloperRewardsReceiver struct {
+	Address string `json:"address"`
+	Weight  string `json:"weight"` 
+}
+
+type Slashing struct {
+	DowntimeJailDuration    string `json:"downtime_jail_duration"`    
+	MinSignedPerWindow      string `json:"min_signed_per_window"`     
+	SignedBlocksWindow      string `json:"signed_blocks_window"`      
+	SlashFractionDoubleSign string `json:"slash_fraction_double_sign"`
+	SlashFractionDowntime   string `json:"slash_fraction_downtime"`   
+}
+
+type Staking struct {
+	BondDenom         string  `json:"bond_denom"`                   
+	HistoricalEntries int64   `json:"historical_entries"`           
+	MaxEntries        int64   `json:"max_entries"`                  
+	MaxValidators     int64   `json:"max_validators"`               
+	MinCommissionRate *string `json:"min_commission_rate,omitempty"`
+	UnbondingTime     string  `json:"unbonding_time"`               
 }
 
 type Peers struct {
@@ -282,30 +338,35 @@ type ValidatorDataValidator struct {
 }
 
 type ChainElement struct {
-	Address           string           `json:"address"`                      
-	Commission        *Commission      `json:"commission,omitempty"`         
-	ConsensusPubkey   *ConsensusPubkey `json:"consensus_pubkey,omitempty"`   
-	DelegatorShares   *string          `json:"delegator_shares,omitempty"`   
-	Description       *Description     `json:"description,omitempty"`        
-	HexAddress        *string          `json:"hexAddress,omitempty"`         
-	Identity          *string          `json:"identity,omitempty"`           
-	Jailed            *bool            `json:"jailed,omitempty"`             
-	KeybaseImage      *string          `json:"keybase_image,omitempty"`      
-	MinSelfDelegation *string          `json:"min_self_delegation,omitempty"`
-	MintscanImage     *string          `json:"mintscan_image,omitempty"`     
-	MissedBlocks      *int64           `json:"missedBlocks,omitempty"`       
-	Moniker           *string          `json:"moniker,omitempty"`            
-	Name              *string          `json:"name,omitempty"`               
-	OperatorAddress   *string          `json:"operator_address,omitempty"`   
-	Path              *string          `json:"path,omitempty"`               
-	Profile           *ChainProfile    `json:"profile,omitempty"`            
-	Rank              *int64           `json:"rank,omitempty"`               
-	Restake           *RestakeClass    `json:"restake,omitempty"`            
-	Status            *ValidatorStatus `json:"status,omitempty"`             
-	Tokens            *string          `json:"tokens,omitempty"`             
-	UnbondingHeight   *string          `json:"unbonding_height,omitempty"`   
-	UnbondingTime     *string          `json:"unbonding_time,omitempty"`     
-	Uptime            *float64         `json:"uptime,omitempty"`             
+	Address             string               `json:"address"`                        
+	Commission          *Commission          `json:"commission,omitempty"`           
+	ConsensusPubkey     *ConsensusPubkey     `json:"consensus_pubkey,omitempty"`     
+	DelegatorShares     *string              `json:"delegator_shares,omitempty"`     
+	Description         *Description         `json:"description,omitempty"`          
+	HexAddress          *string              `json:"hex_address,omitempty"`          
+	Identity            *string              `json:"identity,omitempty"`             
+	Jailed              *bool                `json:"jailed,omitempty"`               
+	KeybaseImage        *string              `json:"keybase_image,omitempty"`        
+	MinSelfDelegation   *string              `json:"min_self_delegation,omitempty"`  
+	MintscanImage       *string              `json:"mintscan_image,omitempty"`       
+	MissedBlocks        *int64               `json:"missed_blocks,omitempty"`        
+	MissedBlocksPeriods []MissedBlocksPeriod `json:"missed_blocks_periods,omitempty"`
+	Moniker             *string              `json:"moniker,omitempty"`              
+	Name                *string              `json:"name,omitempty"`                 
+	OperatorAddress     *string              `json:"operator_address,omitempty"`     
+	Path                *string              `json:"path,omitempty"`                 
+	Profile             *ChainProfile        `json:"profile,omitempty"`              
+	Rank                *int64               `json:"rank,omitempty"`                 
+	Restake             *RestakeClass        `json:"restake,omitempty"`              
+	Services            *Services            `json:"services,omitempty"`             
+	SigningInfo         *SigningInfo         `json:"signing_info,omitempty"`         
+	Slashes             []Slash              `json:"slashes,omitempty"`              
+	Status              *ValidatorStatus     `json:"status,omitempty"`               
+	Tokens              *string              `json:"tokens,omitempty"`               
+	UnbondingHeight     *string              `json:"unbonding_height,omitempty"`     
+	UnbondingTime       *string              `json:"unbonding_time,omitempty"`       
+	Uptime              *float64             `json:"uptime,omitempty"`               
+	UptimePeriods       []UptimePeriod       `json:"uptime_periods,omitempty"`       
 }
 
 type Commission struct {
@@ -332,10 +393,44 @@ type Description struct {
 	Website         string `json:"website"`         
 }
 
+type MissedBlocksPeriod struct {
+	Blocks int64 `json:"blocks"`
+	Missed int64 `json:"missed"`
+}
+
 type RestakeClass struct {
 	Address       string   `json:"address"`       
 	MinimumReward float64  `json:"minimum_reward"`
 	RunTime       *RunTime `json:"run_time"`      
+}
+
+type Services struct {
+	StakingRewards StakingRewards `json:"staking_rewards"`
+}
+
+type StakingRewards struct {
+	Name     string `json:"name"`    
+	Slug     string `json:"slug"`    
+	Verified bool   `json:"verified"`
+}
+
+type SigningInfo struct {
+	Address             string `json:"address"`              
+	IndexOffset         string `json:"index_offset"`         
+	JailedUntil         string `json:"jailed_until"`         
+	MissedBlocksCounter string `json:"missed_blocks_counter"`
+	StartHeight         string `json:"start_height"`         
+	Tombstoned          bool   `json:"tombstoned"`           
+}
+
+type Slash struct {
+	Fraction        string `json:"fraction"`        
+	ValidatorPeriod string `json:"validator_period"`
+}
+
+type UptimePeriod struct {
+	Blocks int64   `json:"blocks"`
+	Uptime float64 `json:"uptime"`
 }
 
 type PurpleProfile struct {
